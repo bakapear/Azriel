@@ -1,0 +1,22 @@
+{
+  "name": "azriel",
+  "version": "0.1.0",
+  "description": "jibril's older sister",
+  "main": "index.js",
+  "dependencies": {
+    "despair": "^2.0.1",
+    "discord.js": "^12.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakapear/Azriel.git"
+  },
+  "author": "bakapear",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bakapear/Azriel/issues"
+  },
+  "homepage": "https://github.com/bakapear/Azriel#readme"
+}
