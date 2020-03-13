@@ -1,24 +1,24 @@
-/* global bot:writable */
+/* global bot */
 
 let Discord = require('discord.js')
 global.bot = new Discord.Client()
-
-let cfg = require('./config.json')
+global.cfg = require('./config.json')
 let handler = require('./handler')
+let gadget = require('./gadget')
 
 bot.on('ready', () => {
+  gadget.init()
   handler.cmd.load([__dirname, 'cmds'])
   console.info(`Your personal servant ${bot.user.tag} is waiting for orders!`)
 })
 
 bot.on('message', msg => {
+  if (!gadget.pass(msg)) return
   handleCommand(msg)
 })
 
 function handleCommand (msg) {
-  if (!cfg.prefix.includes(msg.content[0]) || msg.author.id === bot.user.id) return false
   let res = handler.cmd.make(msg)
-  if (res.cmd.prefix === cfg.prefix[1]) msg.delete().catch(() => {})
   if (res.command) {
     if (!res.metPerms) {
       msg.channel.send([
