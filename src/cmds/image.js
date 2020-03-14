@@ -53,5 +53,6 @@ async function getImages (query) {
     result.push(item)
   }
   if (!result.length) require('fs').writeFileSync('test.html', body)
-  return result.filter(x => x.o.u.indexOf('fbsbx.com/') < 0)
+  return result
+    .filter(x => x.o.u.indexOf('fbsbx.com/') < 0 && !x.o.u.endsWith('.svg'))
 }
