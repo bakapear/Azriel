@@ -4,7 +4,8 @@ let mimeTypes = {
   'image/png': 'png',
   'image/jpeg': 'jpg',
   'image/gif': 'gif',
-  'image/bmp': 'bmp'
+  'image/bmp': 'bmp',
+  'image/webp': 'webp'
 }
 
 module.exports = async arr => {
