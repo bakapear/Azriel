@@ -6,7 +6,7 @@ let util = require('../util')
 let words = []
 let types = ['PLAYING', 'STREAMING', 'LISTENING', 'WATCHING']
 
-module.exports = async () => {
+setInterval(async () => {
   if (!words.length) words = (await dp('https://api.urbandictionary.com/v0/random').json()).list.map(x => x.word)
   bot.user.setPresence({ activity: { name: words.shift().substring(0, 25), type: util.rnd(types), url: 'https://twitch.tv/bakapear' } })
-}
+}, 654321)

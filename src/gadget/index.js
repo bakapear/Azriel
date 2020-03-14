@@ -2,7 +2,8 @@
 
 module.exports = {
   init: () => {
-    setInterval(require('./presence.js'), 654321)
+    require('./presence.js')
+    require('./fridayEvent.js')
   },
   pass: msg => {
     if (!cfg.prefix.includes(msg.content[0]) || msg.author.id === bot.user.id) return
