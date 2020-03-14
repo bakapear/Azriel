@@ -25,4 +25,4 @@ function setTimer () {
   }, getTimeToDay('Friday', 21))
 }
 
-setTimer()
+if (channel) setTimer()
