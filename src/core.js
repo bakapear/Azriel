@@ -4,16 +4,16 @@ let Discord = require('discord.js')
 global.bot = new Discord.Client()
 global.cfg = require('./config.json')
 let handler = require('./handler')
-let gadget = require('./gadget')
+let gadgets = require('./gadgets')
 
 bot.on('ready', () => {
-  gadget.init()
+  gadgets.init()
   handler.load([__dirname, 'cmds'])
   console.info(`Your personal servant ${bot.user.tag} is waiting for orders!`)
 })
 
 bot.on('message', msg => {
-  if (!gadget.pass(msg)) return
+  if (!gadgets.pass(msg)) return
   handleCommand(msg)
 })
 
