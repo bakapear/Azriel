@@ -1,5 +1,3 @@
-module.exports = {
-  cmd: require('./command.js')
-}
-
 require('./secret.js')
+
+module.exports = require('./command.js')

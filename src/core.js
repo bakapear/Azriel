@@ -8,7 +8,7 @@ let gadget = require('./gadget')
 
 bot.on('ready', () => {
   gadget.init()
-  handler.cmd.load([__dirname, 'cmds'])
+  handler.load([__dirname, 'cmds'])
   console.info(`Your personal servant ${bot.user.tag} is waiting for orders!`)
 })
 
@@ -18,7 +18,7 @@ bot.on('message', msg => {
 })
 
 function handleCommand (msg) {
-  let res = handler.cmd.make(msg)
+  let res = handler.make(msg)
   if (res.command) {
     if (!res.metPerms) {
       msg.channel.send([
