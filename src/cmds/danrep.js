@@ -11,13 +11,15 @@ module.exports = {
   exec: async (msg, cmd) => {
     let res = await util.poker(getComments, cmd)
     if (!res) return msg.channel.send('Nothing found!')
-    msg.channel.send({ embed: {
-      description: res.body,
-      timestamp: res.created_at,
-      footer: {
-        text: 'by ' + res.creator_id
+    msg.channel.send({
+      embed: {
+        description: res.body,
+        timestamp: res.created_at,
+        footer: {
+          text: 'by ' + res.creator_id
+        }
       }
-    } })
+    })
   }
 }
 
