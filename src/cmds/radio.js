@@ -17,7 +17,7 @@ module.exports = {
     msg.channel.send({
       embed: {
         title: 'Radio Stations',
-        description: res.items.map((x, i) => `${i + 1}. [${x.name.trim()}](${x.url_resolved.trim()})`).join('\n'),
+        description: res.items.map(x => `[${x.name.trim()}](${x.url_resolved.trim() || x.url.trim()})`).join('\n'),
         footer: {
           text: `Showing ${res.items.length} stations (${res.offset} - ${total})`
         }
