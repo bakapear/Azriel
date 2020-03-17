@@ -157,7 +157,10 @@ let actions = {
     let bin = await gist()
     if (!bin[user] || !bin[user][folder]) return `The folder '${folder}' does not exist!`
     if (!bin[user][folder].length) return `The folder '${folder}' is empty!`
-    bin[user][folder].splice(index, 1)
+    if (isNaN(index) || parseInt(index) > bin[user][folder].length || parseInt(index) < 1) {
+      return `Index must be a number between 1-${bin[user][folder].length.length}!`
+    }
+    bin[user][folder].splice(parseInt(index) - 1, 1)
     await gist(bin)
     return `Removed item at #${index} from '${folder}'!`
   },
