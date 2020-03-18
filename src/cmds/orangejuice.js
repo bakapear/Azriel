@@ -16,6 +16,8 @@ module.exports = {
   }
 }
 
+let cache = null
+
 async function getCards (query) {
   let data = await getData()
   query = query.toLowerCase()
@@ -23,8 +25,11 @@ async function getCards (query) {
 }
 
 async function getData () {
-  let url = 'https://raw.githubusercontent.com/bakapear/JuiceData/master/data/'
-  let cards = await dp(url + 'cards.json').json()
-  let chars = await dp(url + 'chars.json').json()
-  return [...cards, ...chars]
+  if (!cache) {
+    let url = 'https://raw.githubusercontent.com/bakapear/JuiceData/master/data/'
+    let cards = await dp(url + 'cards.json').json()
+    let chars = await dp(url + 'chars.json').json()
+    cache = [...cards, ...chars]
+  }
+  return cache
 }
