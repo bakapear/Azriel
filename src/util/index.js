@@ -3,7 +3,7 @@ let main = {
   rnda: x => x[main.rnd(x)],
   poker: async (fn, cmd, seperate) => {
     let last = cmd.args[cmd.args.length - 1]
-    if (!cmd.args.length) {
+    if (!cmd.content) {
       let res = await fn(cmd.content)
       return seperate ? { items: res, offset: main.rnd(res) } : main.rnda(res)
     } else if (cmd.args.length > 1 && (!isNaN(last) || last === '?')) {

@@ -2,12 +2,12 @@ let fs = require('fs')
 let path = require('path')
 
 let main = {
-  cache: [],
+  items: [],
   load: dir => {
     dir = path.join(...dir)
-    main.cache = fs.readdirSync(dir).map(x => require(path.join(dir, x)))
+    main.items = fs.readdirSync(dir).map(x => require(path.join(dir, x)))
   },
-  get: name => main.cache.find(x => [x.name, ...x.aliases].includes(name)),
+  get: name => main.items.find(x => [x.name, ...x.aliases].includes(name)),
   format: str => {
     let args = str.substr(1).match(/[^"\s]+|"(?:\\"|[^"])+"/g) || []
     return {
