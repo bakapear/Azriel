@@ -1,5 +1,4 @@
-/* global cfg */
-
+let util = require('../util')
 let dp = require('despair')
 
 module.exports = {
@@ -11,13 +10,10 @@ module.exports = {
   usage: '<text>',
   exec: async (msg, cmd) => {
     let res = await translateGoogle(cmd.content)
-    msg.channel.send({
-      embed: {
-        color: cfg.color,
-        description: res.text,
-        footer: {
-          text: `${res.lang}-en | ${res.acc}% Accuracy`
-        }
+    util.embed(msg.channel, {
+      description: res.text,
+      footer: {
+        text: `${res.lang}-en | ${res.acc}% Accuracy`
       }
     })
   }

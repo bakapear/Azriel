@@ -1,5 +1,3 @@
-/* global cfg */
-
 let util = require('../util')
 let dp = require('despair')
 
@@ -16,14 +14,11 @@ module.exports = {
     let total = res.items.length
     res.items.splice(0, res.offset)
     if (res.items.length > 15) res.items.length = 15
-    msg.channel.send({
-      embed: {
-        color: cfg.color,
-        title: 'Radio Stations',
-        description: res.items.map(x => `[${x.name.trim()}](${x.url_resolved.trim() || x.url.trim()})`).join('\n'),
-        footer: {
-          text: `Showing ${res.items.length} stations (${res.offset} - ${total})`
-        }
+    util.embed(msg.channel, {
+      title: 'Radio Stations',
+      description: res.items.map(x => `[${x.name.trim()}](${x.url_resolved.trim() || x.url.trim()})`).join('\n'),
+      footer: {
+        text: `Showing ${res.items.length} stations (${res.offset} - ${total})`
       }
     })
   }

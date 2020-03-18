@@ -1,3 +1,5 @@
+/* global cfg */
+
 let main = {
   rnd: x => Math.floor(Math.random() * x.length),
   rnda: x => x[main.rnd(x)],
@@ -17,7 +19,10 @@ let main = {
       return seperate ? { items: res, offset: 0 } : res[0]
     }
   },
-  attachImages: require('./attachImages.js')
+  attachImages: require('./attachImages.js'),
+  embed: (chan, obj) => chan.send({
+    embed: { color: cfg.color, ...obj }
+  })
 }
 
 module.exports = main

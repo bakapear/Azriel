@@ -1,5 +1,3 @@
-/* global cfg */
-
 let util = require('../util')
 let dp = require('despair')
 
@@ -13,14 +11,11 @@ module.exports = {
   exec: async (msg, cmd) => {
     let res = await util.poker(getComments, cmd)
     if (!res) return msg.channel.send('Nothing found!')
-    msg.channel.send({
-      embed: {
-        color: cfg.color,
-        description: res.body,
-        timestamp: res.created_at,
-        footer: {
-          text: 'by ' + res.creator
-        }
+    util.embed(msg.channel, {
+      description: res.body,
+      timestamp: res.created_at,
+      footer: {
+        text: 'by ' + res.creator
       }
     })
   }
