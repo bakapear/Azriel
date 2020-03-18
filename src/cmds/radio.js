@@ -1,3 +1,5 @@
+/* global cfg */
+
 let util = require('../util')
 let dp = require('despair')
 
@@ -16,6 +18,7 @@ module.exports = {
     if (res.items.length > 15) res.items.length = 15
     msg.channel.send({
       embed: {
+        color: cfg.color,
         title: 'Radio Stations',
         description: res.items.map(x => `[${x.name.trim()}](${x.url_resolved.trim() || x.url.trim()})`).join('\n'),
         footer: {

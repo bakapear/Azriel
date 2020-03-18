@@ -1,3 +1,5 @@
+/* global cfg */
+
 let util = require('../util')
 let dp = require('despair')
 let key = process.env.GITHUB
@@ -58,6 +60,7 @@ module.exports = {
         } else desc = desc.join('')
         msg.channel.send({
           embed: {
+            color: cfg.color,
             author: {
               name: folder || 'custom',
               icon_url: msg.author.avatarURL()
