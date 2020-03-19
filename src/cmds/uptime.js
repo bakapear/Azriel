@@ -3,7 +3,7 @@
 module.exports = {
   name: 'uptime',
   aliases: ['up'],
-  description: `Displays how long I've been running for.`,
+  description: 'Displays how long I have been running for.',
   permissions: [],
   args: 0,
   usage: '',

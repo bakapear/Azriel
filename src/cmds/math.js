@@ -2,8 +2,8 @@ let dp = require('despair')
 
 module.exports = {
   name: 'math',
-  aliases: ['m'],
-  description: `Evaluates a mathematical expression.`,
+  aliases: ['m', 'calc'],
+  description: 'Evaluates a mathematical expression.',
   permissions: [],
   args: 1,
   usage: '<expression>',

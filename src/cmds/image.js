@@ -4,7 +4,7 @@ let dp = require('despair')
 module.exports = {
   name: 'image',
   aliases: ['i', 'img'],
-  description: `Gets an image on Google.`,
+  description: 'Gets an image on Google.',
   permissions: [],
   args: 1,
   usage: '<query> (poker)',

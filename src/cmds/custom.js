@@ -6,7 +6,7 @@ let secret = process.env.GIST
 module.exports = {
   name: 'custom',
   aliases: ['c'],
-  description: `Gets custom media from your own created folders`,
+  description: 'Gets an item from your own created folder.',
   permissions: [],
   args: 0,
   usage: '(folder) (poker) | add <media> (media) (...) | remove <index> | create/delete/clear <folder> | list | rename <folder> <name>',

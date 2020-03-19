@@ -4,7 +4,7 @@ let dp = require('despair')
 module.exports = {
   name: 'danrep',
   aliases: [],
-  description: `Gets a comment on Danbooru.`,
+  description: 'Gets a comment on Danbooru.',
   permissions: [],
   args: 0,
   usage: '(query) (poker)',

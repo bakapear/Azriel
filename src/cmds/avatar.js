@@ -3,7 +3,7 @@
 module.exports = {
   name: 'avatar',
   aliases: ['avt', 'pfp'],
-  description: `Gets an avatar from a user.`,
+  description: 'Gets an avatar from a user.',
   permissions: [],
   args: 1,
   usage: '<user>',

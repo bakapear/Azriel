@@ -4,7 +4,7 @@ let dp = require('despair')
 module.exports = {
   name: 'orangejuice',
   aliases: ['oj'],
-  description: `Gets a card or character from 100% Orange Juice.`,
+  description: 'Gets a card or character from 100% Orange Juice.',
   permissions: [],
   args: 0,
   usage: '(query) (poker)',

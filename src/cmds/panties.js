@@ -4,7 +4,7 @@ let dp = require('despair')
 module.exports = {
   name: 'panties',
   aliases: [],
-  description: `Gets a random Gelbooru comment.`,
+  description: 'Gets a random Gelbooru comment.',
   permissions: [],
   args: 0,
   usage: '(poker)',

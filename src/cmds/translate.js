@@ -4,7 +4,7 @@ let dp = require('despair')
 module.exports = {
   name: 'translate',
   aliases: ['trans'],
-  description: `Translates text to english.`,
+  description: 'Translates text to english.',
   permissions: [],
   args: 1,
   usage: '<text>',
