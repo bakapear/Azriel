@@ -159,7 +159,10 @@ let actions = {
   }
 }
 
+let cache = null
+
 async function gist (data) {
+  if (!data && cache) return cache
   let file = 'custom.json'
   let opts = {
     query: { access_token: key },
@@ -174,7 +177,8 @@ async function gist (data) {
   let body = await dp('https://api.github.com/gists/' + secret, opts).json()
   if (body.files[file].truncated) {
     let res = await dp(body.files[file].raw_url).text()
-    return JSON.parse(res)
+    cache = JSON.parse(res)
   }
-  return JSON.parse(body.files[file].content)
+  cache = JSON.parse(body.files[file].content)
+  return cache
 }
