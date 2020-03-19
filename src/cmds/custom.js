@@ -9,15 +9,11 @@ module.exports = {
   description: `Gets custom media from your own created folders`,
   permissions: [],
   args: 0,
-  usage: '(folder) (index) | add <media> (media) (...) | remove <index> | create/delete/clear <folder> | list [(offset)/<folder>] (offset) | rename <folder> <name>',
+  usage: '(folder) (poker) | add <media> (media) (...) | remove <index> | create/delete/clear <folder> | list | rename <folder> <name>',
   exec: async (msg, cmd) => {
     let user = msg.author.id
-    if (!cmd.content) {
-      let res = await actions.custom(user)
-      if (res.constructor === String) return msg.channel.send(res)
-      return msg.channel.send(util.rnda(res))
-    }
-    switch (cmd.args[0].toLowerCase()) {
+    let arg = (cmd.args[0] || '').toLowerCase()
+    switch (arg) {
       case 'create': {
         if (!cmd.args[1]) return msg.channel.send('Please input a folder name to create!')
         msg.channel.send(await actions.create(user, cmd.args[1].toLowerCase()))
@@ -40,29 +36,15 @@ module.exports = {
         break
       }
       case 'list': {
-        let folder = cmd.args[1]
-        if (folder) folder = folder.toLowerCase()
-        let res = await actions.list(user, folder, cmd.args[1])
+        let res = await actions.list(user)
         if (res.constructor === String) return msg.channel.send(res)
-        let desc = []
-        for (let i = 0; i < res.length; i++) {
-          if (folder) {
-            desc.push(`${i + 1}. ${res[i]}`)
-          } else {
-            desc.push(`[${res[i][0]} (${res[i][1]}x)] `)
-          }
-        }
-        if (folder) {
-          desc = desc.join('\n')
-          folder += ` ( ${res.length} Item${res.length === 1 ? '' : 's'} )`
-        } else desc = desc.join('')
-        util.embed(msg.channel, {
+        util.showEmbed(msg.channel, {
           author: {
-            name: folder || 'custom',
+            name: `${msg.author.username}'s custom folders (${res.length})`,
             icon_url: msg.author.avatarURL()
           },
           footer: {
-            text: desc
+            text: res.map(x => `[${x[0]} (${x[1]}x)]`).join(' ')
           }
         })
         break
@@ -80,15 +62,20 @@ module.exports = {
         break
       }
       default: {
-        let res = await actions.custom(user, cmd.args[0].toLowerCase())
-        if (res.constructor === String) return msg.channel.send(res)
-        if (cmd.args[1] && cmd.args[1] !== '?') {
-          if (isNaN(cmd.args[1]) || parseInt(cmd.args[1]) > res.length || parseInt(cmd.args[1]) < 1) {
-            return msg.channel.send(`Index must be a number between 1-${res.length}!`)
-          }
-          msg.channel.send(res[parseInt(cmd.args[1]) - 1])
+        let res = await util.poker(x => actions.custom(user, x), cmd, { default: '?' })
+        if (res.items.constructor === String) return msg.channel.send(res.items)
+        if (res.isList) {
+          util.showEmbedList(msg.channel, res.items, res.offset, items => {
+            return {
+              author: {
+                name: res.search || 'custom',
+                icon_url: msg.author.avatarURL()
+              },
+              description: items.map((x, i) => `${i + 1}. ${x}`).join('\n')
+            }
+          })
         } else {
-          msg.channel.send(util.rnda(res))
+          msg.channel.send(res.item)
         }
       }
     }
@@ -131,7 +118,7 @@ let actions = {
     await gist(bin)
     return `Renamed folder '${folder}' to '${name}'!`
   },
-  list: async (user, folder, offset) => {
+  list: async (user, folder) => {
     let bin = await gist()
     if (!bin[user] || !Object.keys(bin[user]).length) return `You don't have any folders!`
     if (!folder) {

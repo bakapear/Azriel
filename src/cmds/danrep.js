@@ -7,16 +7,15 @@ module.exports = {
   description: `Gets a comment on Danbooru.`,
   permissions: [],
   args: 0,
-  usage: '(query) (offset)',
+  usage: '(query) (poker)',
   exec: async (msg, cmd) => {
     let res = await util.poker(getComments, cmd)
-    if (!res) return msg.channel.send('Nothing found!')
-    util.embed(msg.channel, {
-      description: res.body,
-      timestamp: res.created_at,
-      footer: {
-        text: 'by ' + res.creator_id
-      }
+    if (!res.items.length) return msg.channel.send('Nothing found!')
+    let item = res.item
+    util.showEmbed(msg.channel, {
+      description: item.body,
+      timestamp: item.created_at,
+      footer: { text: 'by ' + item.creator_id }
     })
   }
 }

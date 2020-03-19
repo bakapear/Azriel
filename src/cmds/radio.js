@@ -6,21 +6,24 @@ module.exports = {
   aliases: [],
   description: `Gets a list of radio stations.`,
   permissions: [],
-  args: 1,
-  usage: '<query> (offset)',
+  args: 0,
+  usage: '(query) (poker)',
   exec: async (msg, cmd) => {
-    let res = await util.poker(getStations, cmd, true)
-    if (!res.items.length || res.offset < 0) return msg.channel.send('Nothing found!')
-    let total = res.items.length
-    res.items.splice(0, res.offset)
-    if (res.items.length > 15) res.items.length = 15
-    util.embed(msg.channel, {
-      title: 'Radio Stations',
-      description: res.items.map(x => `[${x.name.trim()}](${x.url_resolved.trim() || x.url.trim()})`).join('\n'),
-      footer: {
-        text: `Showing ${res.items.length} stations (${res.offset} - ${total})`
-      }
-    })
+    let res = await util.poker(getStations, cmd)
+    if (!res.items.length) return msg.channel.send('Nothing found!')
+    if (res.isList) {
+      util.showEmbedList(msg.channel, res.items, res.offset, items => {
+        return {
+          title: res.search ? `Listing stations including '${res.search}'` : 'Listing all radio stations',
+          description: items.map(x => `[${x.name.trim()}](${x.url_resolved.trim() || x.url.trim()})`).join('\n')
+        }
+      })
+    } else {
+      let item = res.item
+      util.showEmbed(msg.channel, {
+        description: `[${item.name.trim()}](${item.url_resolved.trim() || item.url.trim()})`
+      })
+    }
   }
 }
 

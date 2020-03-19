@@ -7,12 +7,22 @@ module.exports = {
   description: `Gets an image on Google.`,
   permissions: [],
   args: 1,
-  usage: '<query> (offset)',
+  usage: '<query> (poker)',
   exec: async (msg, cmd) => {
     let res = await util.poker(getImages, cmd)
-    if (!res) return msg.channel.send('Nothing found!')
-    let img = await util.attachImages([res.o.u])
-    msg.channel.send({ files: img })
+    if (!res.items.length) return msg.channel.send('Nothing found!')
+    if (res.isList) {
+      util.showEmbedList(msg.channel, res.items, res.offset, items => {
+        return {
+          title: res.search ? `Listing images including '${res.search}'` : 'Listing all images',
+          description: items.map(x => `${x.o.u}`).join('\n')
+        }
+      })
+    } else {
+      let item = res.item
+      let img = await util.attachImages([item.o.u])
+      msg.channel.send({ files: img })
+    }
   }
 }
 
