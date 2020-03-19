@@ -9,7 +9,7 @@ module.exports = {
   args: 0,
   usage: '(command)',
   exec: async (msg, cmd) => {
-    let commands = handler.items
+    let commands = handler.getCommands()
     if (!cmd.content) {
       util.showEmbed(msg.channel, {
         description: `Commands (${commands.length})`,
