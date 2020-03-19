@@ -1,15 +1,15 @@
-/* global bot */
-
 let Discord = require('discord.js')
-global.bot = new Discord.Client()
-global.cfg = require('./config.json')
+let bot = new Discord.Client()
+let cfg = require('./config.json')
 let handler = require('./handler')
 let gadgets = require('./gadgets')
+
+handler.global({ bot, cfg })
 
 bot.on('ready', () => {
   gadgets.init()
   handler.load([__dirname, 'cmds'])
-  console.info(`Your personal servant ${bot.user.tag} is waiting for orders!`)
+  handler.log(`Your personal servant ${bot.user.tag} is waiting for orders!`)
 })
 
 bot.on('message', msg => {
@@ -32,7 +32,7 @@ function handleCommand (msg) {
     } else {
       res.command.exec(msg, res.cmd).catch(e => {
         let stack = e.stack.split('\n')
-        console.error(e)
+        handler.error(e)
         msg.channel.send({
           embed: {
             description: stack[0],
@@ -47,17 +47,20 @@ function handleCommand (msg) {
           }
         })
       })
+      if (cfg.logging) handler.logAction(`${msg.author.id}|${msg.author.username}`, res.cmd.str)
     }
     return true
   }
 }
 
-process.on('SIGINT', () => {
+bot.login(process.env.TOKEN)
+bot.on('error', err => handler.error('Bot error:', err))
+process.on('uncaughtException', err => handler.error('Uncaught Exception:', err))
+process.on('unhandledRejection', err => handler.error('Unhandled Rejection:', err))
+process.on('SIGINT', kill)
+process.on('SIGHUP', kill)
+
+function kill () {
   bot.destroy()
   process.exit()
-})
-
-bot.login(process.env.TOKEN)
-bot.on('error', err => console.error('Bot error:', err))
-process.on('uncaughtException', err => console.error('Uncaught Exception:', err))
-process.on('unhandledRejection', err => console.error('Unhandled Rejection:', err))
+}
