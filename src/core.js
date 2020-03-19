@@ -41,9 +41,7 @@ function handleCommand (msg) {
               name: msg.content,
               icon_url: msg.author.avatarURL()
             },
-            footer: {
-              text: stack.slice(1, 4).join('\n')
-            }
+            footer: { text: stack.slice(1, 4).join('\n') }
           }
         })
       })

@@ -13,9 +13,7 @@ module.exports = {
     if (!cmd.content) {
       util.showEmbed(msg.channel, {
         description: `Commands (${commands.length})`,
-        footer: {
-          text: commands.map(x => x.name).join(' ')
-        }
+        footer: { text: commands.map(x => x.name).join(' ') }
       })
     } else {
       let command = commands.find(x => [x.name, ...x.aliases].includes(cmd.args[0].toLowerCase()))

@@ -43,9 +43,7 @@ module.exports = {
             name: `${msg.author.username}'s custom folders (${res.length})`,
             icon_url: msg.author.avatarURL()
           },
-          footer: {
-            text: res.map(x => `[${x[0]} (${x[1]}x)]`).join(' ')
-          }
+          footer: { text: res.map(x => `[${x[0]} (${x[1]}x)]`).join(' ') }
         })
         break
       }
