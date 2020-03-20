@@ -6,6 +6,6 @@ module.exports = {
   args: 1,
   usage: '<message>',
   exec: async (msg, cmd) => {
-    msg.channel.send(cmd.content)
+    return msg.channel.send(cmd.content)
   }
 }

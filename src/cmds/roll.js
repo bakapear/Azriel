@@ -15,6 +15,6 @@ module.exports = {
       min = max
       max = parseInt(cmd.args[1])
     }
-    msg.channel.send(`:game_die: Rolled a **${util.randomInt(min, max)}**!`)
+    return msg.channel.send(`:game_die: Rolled a **${util.randomInt(min, max)}**!`)
   }
 }

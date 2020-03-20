@@ -16,54 +16,47 @@ module.exports = {
     switch (arg) {
       case 'create': {
         if (!cmd.args[1]) return msg.channel.send('Please input a folder name to create!')
-        msg.channel.send(await actions.create(user, cmd.args[1].toLowerCase()))
-        break
+        return msg.channel.send(await actions.create(user, cmd.args[1].toLowerCase()))
       }
       case 'delete': {
         if (!cmd.args[1]) return msg.channel.send('Please input a folder name to delete!')
-        msg.channel.send(await actions.delete(user, cmd.args[1].toLowerCase()))
-        break
+        return msg.channel.send(await actions.delete(user, cmd.args[1].toLowerCase()))
       }
       case 'clear': {
         if (!cmd.args[1]) return msg.channel.send('Please input a folder name to clear!')
-        msg.channel.send(await actions.clear(user, cmd.args[1].toLowerCase()))
-        break
+        return msg.channel.send(await actions.clear(user, cmd.args[1].toLowerCase()))
       }
       case 'rename': {
         if (!cmd.args[1]) return msg.channel.send('Please input a folder name to rename!')
         if (!cmd.args[2]) return msg.channel.send('Please input a new folder name to rename to!')
-        msg.channel.send(await actions.rename(user, cmd.args[1].toLowerCase(), cmd.args[2].toLowerCase()))
-        break
+        return msg.channel.send(await actions.rename(user, cmd.args[1].toLowerCase(), cmd.args[2].toLowerCase()))
       }
       case 'list': {
         let res = await actions.list(user)
         if (res.constructor === String) return msg.channel.send(res)
-        util.showEmbed(msg.channel, {
+        return util.showEmbed(msg.channel, {
           author: {
             name: `${msg.author.username}'s custom folders (${res.length})`,
             icon_url: msg.author.avatarURL()
           },
           footer: { text: res.map(x => `[${x[0]} (${x[1]}x)]`).join(' ') }
         })
-        break
       }
       case 'add': {
         if (!cmd.args[1]) return msg.channel.send('Please input a folder to add items to!')
         if (!cmd.args[2]) return msg.channel.send('Please input atleast 1 item to add to the folder!')
-        msg.channel.send(await actions.add(user, cmd.args[1].toLowerCase(), cmd.args.slice(2)))
-        break
+        return msg.channel.send(await actions.add(user, cmd.args[1].toLowerCase(), cmd.args.slice(2)))
       }
       case 'remove': {
         if (!cmd.args[1]) return msg.channel.send('Please input a folder to remove items from!')
         if (!cmd.args[2]) return msg.channel.send('Please an index to remove!')
-        msg.channel.send(await actions.remove(user, cmd.args[1].toLowerCase(), cmd.args[2]))
-        break
+        return msg.channel.send(await actions.remove(user, cmd.args[1].toLowerCase(), cmd.args[2]))
       }
       default: {
         let res = await util.poker(x => actions.custom(user, x), cmd, { default: '?' })
         if (res.items.constructor === String) return msg.channel.send(res.items)
         if (res.isList) {
-          util.showEmbedList(msg.channel, res.items, res.offset, items => {
+          return util.showEmbedList(msg.channel, res.items, res.offset, items => {
             return {
               author: {
                 name: res.search || 'custom',
@@ -72,9 +65,8 @@ module.exports = {
               description: items.map((x, i) => `${i + 1}. ${x}`).join('\n')
             }
           })
-        } else {
-          msg.channel.send(res.item)
         }
+        return msg.channel.send(res.item)
       }
     }
   }

@@ -3,6 +3,7 @@ let bot = new Discord.Client()
 let cfg = require('./config.json')
 let handler = require('./handler')
 let gadgets = require('./gadgets')
+let util = require('./util')
 
 handler.global({ bot, cfg })
 
@@ -31,19 +32,8 @@ function handleCommand (msg) {
       )
     } else {
       res.command.exec(msg, res.cmd).catch(e => {
-        let stack = e.stack.split('\n')
         handler.error(e)
-        msg.channel.send({
-          embed: {
-            description: stack[0],
-            color: 16737380,
-            author: {
-              name: msg.content,
-              icon_url: msg.author.avatarURL()
-            },
-            footer: { text: stack.slice(1, 4).join('\n') }
-          }
-        })
+        util.showError(msg, e)
       })
       if (cfg.logging) handler.logAction(`${msg.author.id}|${msg.author.username}`, res.cmd.str)
     }

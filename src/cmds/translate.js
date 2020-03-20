@@ -10,7 +10,7 @@ module.exports = {
   usage: '<text>',
   exec: async (msg, cmd) => {
     let res = await translateGoogle(cmd.content)
-    util.showEmbed(msg.channel, {
+    return util.showEmbed(msg.channel, {
       description: res.text,
       footer: { text: `${res.lang}-en | ${res.acc}% Accuracy` }
     })

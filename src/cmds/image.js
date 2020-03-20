@@ -12,17 +12,16 @@ module.exports = {
     let res = await util.poker(getImages, cmd)
     if (!res.items.length) return msg.channel.send('Nothing found!')
     if (res.isList) {
-      util.showEmbedList(msg.channel, res.items, res.offset, items => {
+      return util.showEmbedList(msg.channel, res.items, res.offset, items => {
         return {
           title: res.search ? `Listing images including '${res.search}'` : 'Listing all images',
           description: items.map(x => `${x.o.u}`).join('\n')
         }
       })
-    } else {
-      let item = res.item
-      let img = await util.attachImages([item.o.u])
-      msg.channel.send({ files: img })
     }
+    let item = res.item
+    let img = await util.attachImages([item.o.u])
+    return msg.channel.send({ files: img })
   }
 }
 

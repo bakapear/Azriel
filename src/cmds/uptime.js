@@ -8,7 +8,7 @@ module.exports = {
   args: 0,
   usage: '',
   exec: async (msg, cmd) => {
-    msg.channel.send([
+    return msg.channel.send([
       `**Process**: ${t(process.uptime())}`,
       `**Bot**: ${t(bot.uptime / 1000)}`
     ].join('\n'))

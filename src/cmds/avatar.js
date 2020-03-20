@@ -9,7 +9,7 @@ module.exports = {
   usage: '<user>',
   exec: async (msg, cmd) => {
     let user = bot.users.cache.find(x => x.username.toLowerCase().indexOf(cmd.content.toLowerCase()) >= 0)
-    if (user) msg.channel.send({ files: [user.avatarURL({ format: 'png', dynamic: true, size: 1024 })] })
-    else msg.channel.send(`Couldn't find that user!`)
+    if (user) return msg.channel.send({ files: [user.avatarURL({ format: 'png', dynamic: true, size: 1024 })] })
+    return msg.channel.send(`Couldn't find that user!`)
   }
 }

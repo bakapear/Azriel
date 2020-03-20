@@ -12,18 +12,17 @@ module.exports = {
     let res = await util.poker(getStations, cmd)
     if (!res.items.length) return msg.channel.send('Nothing found!')
     if (res.isList) {
-      util.showEmbedList(msg.channel, res.items, res.offset, items => {
+      return util.showEmbedList(msg.channel, res.items, res.offset, items => {
         return {
           title: res.search ? `Listing stations including '${res.search}'` : 'Listing all radio stations',
           description: items.map(x => `[${x.name.trim()}](${x.url_resolved.trim() || x.url.trim()})`).join('\n')
         }
       })
-    } else {
-      let item = res.item
-      util.showEmbed(msg.channel, {
-        description: `[${item.name.trim()}](${item.url_resolved.trim() || item.url.trim()})`
-      })
     }
+    let item = res.item
+    return util.showEmbed(msg.channel, {
+      description: `[${item.name.trim()}](${item.url_resolved.trim() || item.url.trim()})`
+    })
   }
 }
 

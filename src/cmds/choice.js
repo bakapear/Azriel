@@ -8,6 +8,6 @@ module.exports = {
   args: 2,
   usage: '<choice1> <choice2> (choice3) (...)',
   exec: async (msg, cmd) => {
-    msg.channel.send(util.randomItem(cmd.args))
+    return msg.channel.send(util.randomItem(cmd.args))
   }
 }

@@ -8,7 +8,7 @@ module.exports = {
   args: 1,
   usage: '<expression>',
   exec: async (msg, cmd) => {
-    msg.channel.send(await doMath(cmd.content))
+    return msg.channel.send(await doMath(cmd.content))
   }
 }
 

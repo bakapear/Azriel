@@ -8,7 +8,7 @@ module.exports = {
   args: 0,
   usage: '',
   exec: async (msg, cmd) => {
-    msg.channel.send(`:8ball: ${util.randomItem(answers)}`)
+    return msg.channel.send(`:8ball: ${util.randomItem(answers)}`)
   }
 }
 

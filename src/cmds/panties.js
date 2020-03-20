@@ -12,7 +12,7 @@ module.exports = {
     let res = await util.poker(getComments, cmd)
     if (!res.items.length) return msg.channel.send('Nothing found!')
     let item = res.item
-    util.showEmbed(msg.channel, {
+    return util.showEmbed(msg.channel, {
       description: item.body,
       timestamp: item.created_at,
       footer: { text: 'by ' + item.creator }

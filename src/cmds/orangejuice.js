@@ -12,17 +12,16 @@ module.exports = {
     let res = await util.poker(getCards, cmd)
     if (!res.items.length) return msg.channel.send('Nothing found!')
     if (res.isList) {
-      util.showEmbedList(msg.channel, res.items, res.offset, items => {
+      return util.showEmbedList(msg.channel, res.items, res.offset, items => {
         return {
           title: res.search ? `Listing cards including '${res.search}'` : 'Listing all cards',
           description: items.map(x => `[${x.name}](${x.url})`).join('\n')
         }
       })
-    } else {
-      let item = res.item
-      let img = await util.attachImages([item.url])
-      msg.channel.send({ files: img })
     }
+    let item = res.item
+    let img = await util.attachImages([item.url])
+    return msg.channel.send({ files: img })
   }
 }
 

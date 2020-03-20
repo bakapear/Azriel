@@ -13,7 +13,7 @@ module.exports = {
     let velvets = await getVelvets(cmd.name)
     let item = util.randomItem(velvets)
     let img = await util.attachImages([item])
-    msg.channel.send({ files: img })
+    return msg.channel.send({ files: img })
   }
 }
 

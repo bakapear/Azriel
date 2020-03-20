@@ -6,6 +6,6 @@ module.exports = {
   args: 0,
   usage: '',
   exec: async (msg, cmd) => {
-    msg.channel.send(`It's **${Math.random() < 0.5 ? 'Heads' : 'Tails'}**!`)
+    return msg.channel.send(`It's **${Math.random() < 0.5 ? 'Heads' : 'Tails'}**!`)
   }
 }
