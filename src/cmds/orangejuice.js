@@ -36,10 +36,7 @@ async function getCards (query) {
 
 async function getData () {
   if (!cache) {
-    let url = 'https://raw.githubusercontent.com/bakapear/JuiceData/master/data/'
-    let cards = await dp(url + 'cards.json').json()
-    let chars = await dp(url + 'chars.json').json()
-    cache = [...cards, ...chars]
+    cache = await dp('https://raw.githubusercontent.com/bakapear/JuiceData/master/data.json').json()
   }
   return cache
 }
