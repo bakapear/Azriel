@@ -15,11 +15,17 @@ module.exports = {
     return util.showEmbed(msg.channel, {
       title: item.word,
       url: item.permalink,
-      description: [item.definition, item.example].join('\n\n'),
+      description: formatDesc([item.definition, item.example].join('\n\n')),
       timestamp: item.written_on,
       footer: { text: `by ${item.author}` }
     })
   }
+}
+
+function formatDesc (str) {
+  return str.replace(/\[(.+?)\]/g, (a, b) => {
+    return `${a}(https://urbandictionary.com/define.php?term=${encodeURIComponent(b)})`
+  })
 }
 
 async function getDefinition (term) {
