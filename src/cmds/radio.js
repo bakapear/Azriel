@@ -4,7 +4,7 @@ let dp = require('despair')
 module.exports = {
   name: 'radio',
   aliases: [],
-  description: 'Gets a list of radio stations.',
+  description: 'Gets radio stations.',
   permissions: [],
   args: 0,
   usage: '(query) (poker)',
