@@ -14,7 +14,7 @@ module.exports = {
     if (res.isList) {
       return util.showEmbedList(msg.channel, res.items, res.offset, items => {
         return {
-          title: res.search ? `Listing images including '${res.search}'` : 'Listing all images',
+          title: `Listing images including '${res.search}'`,
           description: items.map(x => `${x.o.u}`).join('\n')
         }
       })

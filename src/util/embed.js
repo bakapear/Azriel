@@ -6,7 +6,7 @@ let main = {
       embed: { color: cfg.color, ...obj }
     })
   },
-  showEmbedList: (chan, items, offset, fn, max = 15) => {
+  showEmbedList: (chan, items, offset, fn, max = 10) => {
     let total = items.length
     items.splice(0, offset)
     if (items.length > max) items.length = max

@@ -9,7 +9,7 @@ handler.global({ bot, cfg })
 
 bot.on('ready', () => {
   gadgets.init()
-  handler.load([__dirname, 'cmds'])
+  handler.loadCommands([__dirname, 'cmds'])
   handler.log(`Your personal servant ${bot.user.tag} is waiting for orders!`)
 })
 
