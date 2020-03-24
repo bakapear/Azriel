@@ -5,12 +5,12 @@ let items = []
 
 let main = {
   getCommands: () => items,
-  load: dir => {
+  loadCommands: dir => {
     dir = path.join(...dir)
     items = fs.readdirSync(dir).map(x => require(path.join(dir, x)))
   },
-  get: name => items.find(x => [x.name, ...x.aliases].includes(name)),
-  format: str => {
+  getCommand: name => items.find(x => [x.name, ...x.aliases].includes(name)),
+  formatArgs: str => {
     let args = str.substr(1).match(/[^"\s]+|"(?:\\"|[^"])+"/g) || []
     return {
       str: str,
@@ -21,15 +21,18 @@ let main = {
     }
   },
   make: msg => {
-    let cmd = main.format(msg.content)
+    let cmd = main.formatArgs(msg.content)
     let pack = { cmd }
-    let command = main.get(cmd.name)
+    let command = main.getCommand(cmd.name)
     if (command) {
       pack.command = command
       pack.metArgs = cmd.args.length >= command.args
       pack.metPerms = msg.member.hasPermission(command.permissions)
     }
     return pack
+  },
+  executeCommand: async (msg, res) => {
+    return res.command.exec(msg, res.cmd)
   }
 }
 

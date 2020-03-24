@@ -31,7 +31,7 @@ function handleCommand (msg) {
         `Usage: \`${res.cmd.prefix}${res.cmd.name}${res.command.usage ? ` ${res.command.usage}` : ''}\``
       )
     } else {
-      res.command.exec(msg, res.cmd).catch(e => {
+      handler.executeCommand(msg, res).catch(e => {
         handler.error(e)
         util.showError(msg, e)
       })
