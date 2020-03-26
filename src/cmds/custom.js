@@ -11,6 +11,7 @@ module.exports = {
   args: 0,
   usage: '(folder) (poker) | add <media> (media) (...) | remove <index> | create/delete/clear <folder> | list | rename <folder> <name>',
   exec: async (msg, cmd) => {
+    if (!secret) return
     let user = msg.author.id
     let arg = (cmd.args[0] || '').toLowerCase()
     switch (arg) {
