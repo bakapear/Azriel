@@ -4,8 +4,9 @@ let cfg = require('./config.json')
 let handler = require('./handler')
 let gadgets = require('./gadgets')
 let util = require('./util')
+let MediaPlayer = require('./modules/MediaPlayer')
 
-handler.global({ bot, cfg })
+handler.global({ bot, cfg, MediaPlayer })
 
 bot.on('ready', () => {
   gadgets.init()
