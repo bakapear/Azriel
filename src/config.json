@@ -1,5 +1,5 @@
 {
-    "prefix": [">",","],
+    "prefix": [">","~"],
     "color": 1987661,
     "logging": false
 }
