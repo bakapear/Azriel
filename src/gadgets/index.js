@@ -3,7 +3,7 @@
 module.exports = {
   init: () => {
     require('./presence.js')
-    require('./fridayEvent.js')
+    require('./events')
   },
   pass: msg => {
     if (!cfg.prefix.includes(msg.content[0]) || msg.author.id === bot.user.id) return
