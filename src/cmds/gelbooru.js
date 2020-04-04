@@ -14,11 +14,14 @@ module.exports = {
     let item = res.item
     let webm = item.image.endsWith('.webm')
     if (res.isList) {
+      if (webm) msg.channel.send(item.file_url)
       return util.showEmbed(msg.channel, {
+        title: item.owner,
+        url: 'https://gelbooru.com/index.php?page=post&s=view&id=' + item.id,
         image: webm ? { url: item.file_url } : null,
         timestamp: item.created_at,
         footer: { text: item.rating + ' | ' + item.tags }
-      }, item.file_url)
+      })
     }
     if (webm) {
       return msg.channel.send(item.file_url)
