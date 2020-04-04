@@ -1,9 +1,10 @@
 /* global cfg */
 
 let main = {
-  showEmbed: (chan, obj) => {
+  showEmbed: (chan, obj, content) => {
     return chan.send({
-      embed: { color: cfg.color, ...obj }
+      embed: { color: cfg.color, ...obj },
+      content: content || null
     })
   },
   showEmbedList: (chan, items, offset, fn, max = 10) => {
