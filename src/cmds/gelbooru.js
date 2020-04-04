@@ -18,7 +18,7 @@ module.exports = {
       return util.showEmbed(msg.channel, {
         title: item.owner,
         url: 'https://gelbooru.com/index.php?page=post&s=view&id=' + item.id,
-        image: webm ? { url: item.file_url } : null,
+        image: !webm ? { url: item.file_url } : null,
         timestamp: item.created_at,
         footer: { text: item.rating + ' | ' + item.tags }
       })
