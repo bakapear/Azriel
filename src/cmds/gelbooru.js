@@ -12,6 +12,13 @@ module.exports = {
     let res = await util.poker(getPosts, cmd)
     if (!res.items.length) return msg.channel.send('Nothing found!')
     let item = res.item
+    if (res.isList) {
+      return util.showEmbed(msg.channel, {
+        image: { url: item.file_url },
+        timestamp: item.created_at,
+        footer: { text: item.rating + ' | ' + item.tags }
+      })
+    }
     let img = await util.attachImages([item.file_url])
     return msg.channel.send({ files: img })
   }
