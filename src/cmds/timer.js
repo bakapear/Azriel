@@ -24,7 +24,7 @@ module.exports = {
       timers[msg.author.id] = []
     }
     let timer = {
-      time: time.toLocaleString('de-DE'),
+      time: time.toLocaleString('de-DE', { hour12: false, hourCycle: 'h24' }),
       timeout: setTimeout(() => {
         msg.channel.send(`<@${msg.author.id}> RRRRRRRRRRRRRRRRRRRR`)
         let index = timers[msg.author.id].indexOf(timer)
