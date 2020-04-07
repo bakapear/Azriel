@@ -33,19 +33,21 @@ module.exports = {
 }
 
 async function getPosts (query) {
-  let res = await dp('https://gelbooru.com/index.php', {
-    query: {
-      tags: query,
-      page: 'dapi',
-      s: 'post',
-      q: 'index',
-      limit: 250,
-      json: 1
-    }
-  }).json()
-  return res.filter(x =>
-    x.tags.indexOf('scat') < 0 &&
+  try {
+    let res = await dp('https://gelbooru.com/index.php', {
+      query: {
+        tags: query,
+        page: 'dapi',
+        s: 'post',
+        q: 'index',
+        limit: 250,
+        json: 1
+      }
+    }).json()
+    return res.filter(x =>
+      x.tags.indexOf('scat') < 0 &&
     x.tags.indexOf('guro') < 0 &&
     x.tags.indexOf('furry') < 0 &&
     x.tags.indexOf('astolfo_(fate)') < 0)
+  } catch (e) { return [] }
 }
