@@ -6,6 +6,7 @@ module.exports = {
     require('./events')
   },
   pass: msg => {
+    if (require('./link.js')(msg)) return
     if (!cfg.prefix.includes(msg.content[0]) || msg.author.id === bot.user.id) return
     if (msg.content[0] === cfg.prefix[1]) msg.delete().catch(() => {})
     return true
