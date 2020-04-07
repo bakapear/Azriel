@@ -1,4 +1,5 @@
 let util = require('../util')
+let qr = require('querystring')
 let dp = require('despair')
 
 module.exports = {
@@ -18,22 +19,21 @@ module.exports = {
 }
 
 async function translateGoogle (text, target = 'en') {
-  let body = await dp('https://translate.googleapis.com/translate_a/single', {
-    query: {
-      client: 'gtx',
-      sl: 'auto',
-      tl: target,
-      hl: target,
-      dt: 't',
-      ie: 'UTF-8',
-      oe: 'UTF-8',
-      otf: 1,
-      ssel: 0,
-      tsel: 0,
-      kc: 7,
-      q: text
-    }
-  }).json()
+  let query = {
+    client: 'gtx',
+    sl: 'auto',
+    tl: target,
+    hl: target,
+    dt: ['qca', 't'],
+    ie: 'UTF-8',
+    oe: 'UTF-8',
+    otf: 1,
+    ssel: 0,
+    tsel: 0,
+    kc: 7,
+    q: text
+  }
+  let body = await dp('https://translate.googleapis.com/translate_a/single?' + qr.stringify(query)).json()
   return {
     text: body[0].map(x => x[0]).join('').replace(/>/g, `\\>`),
     acc: (body[6] * 100).toFixed(2),
