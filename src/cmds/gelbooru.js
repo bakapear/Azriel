@@ -9,6 +9,12 @@ module.exports = {
   args: 0,
   usage: '(tags) (poker)',
   exec: async (msg, cmd) => {
+    cmd.args = cmd.args.map(x => {
+      if (x === 's' || x === 'safe') x = 'rating:safe'
+      if (x === 'q' || x === 'questionable') x = 'rating:questionable'
+      if (x === 'e' || x === 'explicit') x = 'rating:explicit'
+      return x
+    })
     let res = await util.poker(getPosts, cmd)
     if (!res.items.length) return msg.channel.send('Nothing found!')
     let item = res.item
