@@ -1,7 +1,10 @@
+/* global cfg */
+
 let rnd = require('./random.js')
 
 let main = {
   poker: async (fn, cmd, opts = {}) => {
+    if (cmd.prefix === cfg.prefix.random) opts.forceRandom = true
     let args = cmd.args.slice()
     let arg = x => args[args.length - x]
     let offset = (!isNaN(arg(1)) || arg(1) === '?') ? args.pop() : null

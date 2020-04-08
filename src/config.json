@@ -1,5 +1,9 @@
 {
-    "prefix": [".",","],
+    "prefix": {
+        "normal": ".",
+        "hidden": ",",
+        "random": "-"
+    },
     "color": 1987661,
     "logging": false
 }
