@@ -1,3 +1,4 @@
+/* global cfg */
 let util = require('../util')
 let handler = require('../handler')
 
@@ -23,7 +24,7 @@ module.exports = {
         description: [
           `**Aliases**: ${command.aliases.join(', ')}`,
           `**Description**: ${command.description}`,
-          `**Usage**: ${command.usage}`
+          `**Usage**: ${cfg.prefix.normal}${command.name} ${command.usage}`
         ].join('\n')
       })
     }
