@@ -29,7 +29,7 @@ function formatDesc (str) {
 }
 
 async function getDefinition (term) {
-  let body = await dp('http://api.urbandictionary.com/v0/define', {
+  let body = await dp('https://api.urbandictionary.com/v0/define', {
     query: { term }
   }).json()
   return body.list
