@@ -115,8 +115,9 @@ async function google (query) {
 }
 
 async function searchStuff (query) {
+  let res = []
   let body = await google(query)
-  let res = { ...body.results }
+  res.push(body.results)
   if (body.snippet) res.unshift(body.snippet)
   return res
 }
