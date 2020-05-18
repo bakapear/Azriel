@@ -16,7 +16,7 @@ module.exports = {
       return util.showEmbedList(msg.channel, res.items, res.offset, items => {
         return {
           title: `Listing results of '${res.search}'`,
-          description: items.map(x => x.url ? `[${x.name}](${x.url})` : x.name).join('\n')
+          description: items.map(x => x.url ? `[${x.title}](${x.url})` : x.title).join('\n')
         }
       })
     }
