@@ -24,7 +24,7 @@ function handleCommand (msg) {
   if (res.command) {
     if (!res.metPerms) {
       msg.channel.send([
-        `You need the following permissions to execute this command:`,
+        'You need the following permissions to execute this command:',
         `\`${res.command.permissions.join('` `')}\``
       ].join('\n'))
     } else if (!res.metArgs) {
