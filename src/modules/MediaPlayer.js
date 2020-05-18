@@ -136,10 +136,10 @@ Player.prototype.message = function (type, item, channel) {
       })
     }
     case 'novoice': {
-      return { error: `You're not in a voice channel!` }
+      return { error: 'You\'re not in a voice channel!' }
     }
     case 'noplay': {
-      return { error: `Nothing is playing right now!` }
+      return { error: 'Nothing is playing right now!' }
     }
   }
 }

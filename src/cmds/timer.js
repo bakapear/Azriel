@@ -9,7 +9,7 @@ module.exports = {
   usage: 'list | <H:M:S> (M/D/Y)',
   exec: async (msg, cmd) => {
     if (cmd.args[0] === 'list') {
-      if (!timers[msg.author.id]) return msg.channel.send(`You don't have any active timers running!`)
+      if (!timers[msg.author.id]) return msg.channel.send('You don\'t have any active timers running!')
       return util.showEmbedList(msg.channel, timers[msg.author.id], 0, x => {
         return {
           title: 'Your active timers',

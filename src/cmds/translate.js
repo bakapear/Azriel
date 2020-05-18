@@ -44,7 +44,7 @@ async function translateGoogle (text, target = 'en') {
   let body = await dp('https://translate.googleapis.com/translate_a/single?' + qr.stringify(query)).json().catch(e => null)
   if (!body) return { error: 'Something went wrong!' }
   return {
-    text: body[0].map(x => x[0]).join('').replace(/>/g, `\\>`),
+    text: body[0].map(x => x[0]).join('').replace(/>/g, '\\>'),
     acc: (body[6] * 100).toFixed(2),
     lang: { from: body[8][0][0], to: target }
   }

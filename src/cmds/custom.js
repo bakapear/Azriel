@@ -111,7 +111,7 @@ let actions = {
   },
   list: async (user, folder) => {
     let bin = await gist()
-    if (!bin[user] || !Object.keys(bin[user]).length) return `You don't have any folders!`
+    if (!bin[user] || !Object.keys(bin[user]).length) return 'You don\'t have any folders!'
     if (!folder) {
       return Object.entries(bin[user]).map(x => {
         x[1] = x[1].length
@@ -142,7 +142,7 @@ let actions = {
   },
   custom: async (user, folder) => {
     let bin = await gist()
-    if (!bin[user] || !Object.keys(bin[user]).length) return `You don't have any folders!`
+    if (!bin[user] || !Object.keys(bin[user]).length) return 'You don\'t have any folders!'
     if (!folder) return [].concat.apply([], Object.values(bin[user]))
     if (!bin[user][folder]) return `The folder '${folder}' does not exist!`
     if (!bin[user][folder].length) return `The folder '${folder}' is empty!`

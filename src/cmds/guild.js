@@ -4,7 +4,7 @@ let util = require('../util')
 module.exports = {
   name: 'guild',
   aliases: ['server'],
-  description: `Gets information about the current guild you're in.`,
+  description: 'Gets information about the current guild you\'re in.',
   permissions: [],
   args: 0,
   usage: '',
