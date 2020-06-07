@@ -20,7 +20,7 @@ module.exports = {
       description: [
         `**Weather**: ${body.weather.map(x => x.main).join(' \\> ')}`,
         `**Temp**: ${temp(body.main.temp)}°C (${temp(body.main.temp_min)}-${temp(body.main.temp_max)})`,
-        `**Wind**: ${body.wind.speed}m/s ${body.wind.deg}°`
+        `**Wind**: ${body.wind.speed}m/s` + (body.wind.deg ? ` ${body.wind.deg}°` : '')
       ].join('\n')
     })
   }
