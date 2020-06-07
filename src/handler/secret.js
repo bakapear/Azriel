@@ -5,6 +5,6 @@ if (fs.existsSync('.env')) {
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i]
     let index = line.indexOf('=')
-    process.env[line.substr(0, index)] = line.substr(index + 1)
+    if (line) process.env[line.substr(0, index)] = line.substr(index + 1)
   }
 }
