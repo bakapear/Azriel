@@ -16,7 +16,7 @@ let main = {
       offset = rnd.randomIndex(items)
     } else {
       if (offset === null) {
-        if (!isList & opts.default && (opts.default === '?' || !isNaN(opts.default))) {
+        if (!isList && opts.default && (opts.default === '?' || !isNaN(opts.default))) {
           if (opts.default === '?') offset = rnd.randomIndex(items)
           else offset = parseInt(offset)
         } else offset = 0
