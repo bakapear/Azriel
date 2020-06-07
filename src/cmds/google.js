@@ -109,8 +109,14 @@ async function google (query) {
         $(mod).find('.SwHCTb').text(true) + ' ' +
         $(mod).find('.MWvIVe').text(true)
       }
+    } else if (mod.attribs['data-md'] === '16') {
+      res.snippet = {
+        title: $(mod).find('.SPZz6b')[0].children.map(x => $(x).text()).join(' - '),
+        desc: $('.bbVIQb').text()
+      }
     }
   }
+  if (res.snippet && res.snippet.desc.length > 1000) res.snippet.desc = res.snippet.desc.substr(0, 1000) + '...'
   return res
 }
 
