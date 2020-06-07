@@ -23,9 +23,11 @@ module.exports = {
 }
 
 function formatDesc (str) {
-  return str.replace(/\[(.+?)\]/g, (a, b) => {
+  str = str.replace(/\[(.+?)\]/g, (a, b) => {
     return `${a}(https://urbandictionary.com/define.php?term=${encodeURIComponent(b)})`
   })
+  if (str.length > 1000) str = str.substr(0, 1000) + '...'
+  return str
 }
 
 async function getDefinition (term) {
