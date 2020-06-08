@@ -20,7 +20,8 @@ module.exports = {
       })
     }
     let item = res.item
-    let img = await util.attachImages([item.o.u])
+    let url = await head(item.o.u) ? item.o.u : item.t.u
+    let img = await util.attachImages([url])
     return msg.channel.send({ files: img })
   }
 }
@@ -61,7 +62,10 @@ async function getImages (query) {
     }
     result.push(item)
   }
-  if (!result.length) require('fs').writeFileSync('test.html', body)
   return result
-    .filter(x => x.o.u.indexOf('fbsbx.com/') < 0 && !x.o.u.endsWith('.svg'))
+}
+
+async function head (url) {
+  let res = await dp.head(url).catch(e => e)
+  return (res.statusCode || res.code) <= 200
 }
