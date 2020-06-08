@@ -15,7 +15,7 @@ let main = {
     return {
       str: str,
       prefix: str[0],
-      name: args.shift().toLowerCase(),
+      name: (args.shift() || '').toLowerCase(),
       content: str.split(' ').slice(1).join(' '),
       args: args.map(x => x[0] === '"' && x[x.length - 1] === '"' ? x.substr(1, x.length - 2) : x)
     }
