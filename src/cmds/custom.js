@@ -156,8 +156,10 @@ async function gist (data) {
   if (!data && cache) return cache
   let file = 'custom.json'
   let opts = {
-    query: { access_token: key },
-    headers: { 'User-Agent': 'Azriel' }
+    headers: {
+      'User-Agent': 'Azriel',
+      Authorization: 'token ' + key
+    }
   }
   if (data) {
     opts.method = 'PATCH'
