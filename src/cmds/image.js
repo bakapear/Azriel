@@ -67,5 +67,7 @@ async function getImages (query) {
 
 async function head (url) {
   let res = await dp.head(url).catch(e => e)
-  return (res.statusCode || res.code) <= 200
+  if ((res.statusCode || res.code) <= 200) {
+    return res.headers['content-type'].indexOf('image') >= 0
+  }
 }
