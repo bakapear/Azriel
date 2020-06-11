@@ -70,6 +70,6 @@ async function head (url) {
   if ((res.statusCode || res.code) <= 200) {
     let size = Number(res.headers['content-length'] || '0')
     let type = res.headers['content-type'] || ''
-    return size <= 8000000 && size > 0 && type.indexOf('image') >= 0
+    return size <= 8000000 && size > 0 && type.indexOf('image') >= 0 && type.indexOf('svg') < 0
   }
 }
