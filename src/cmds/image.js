@@ -39,12 +39,12 @@ async function getImages (query) {
     }
   })
   let result = []
-  let start = body.indexOf('function(){return [', body.indexOf("key: 'ds:1'")) + 18
-  let end = body.indexOf('}});</script>', start) - 1
+  let start = body.indexOf('data:', body.indexOf("ds:1',")) + 5
+  let end = body.indexOf('});</script>', start) - 1
   let json = null
   try {
     json = JSON.parse(body.substring(start, end))[31][0][12][2]
-  } catch (e) { return [] }
+  } catch (e) { console.log(e); return [] }
   for (let i = 0; i < json.length; i++) {
     let data = json[i][1]
     if (!data) continue
