@@ -34,11 +34,7 @@ async function getComments () {
     res.push({
       created_at: matches[i],
       post_id: matches[++i],
-      body: matches[++i]
-        .replace(/&amp;/g, '&')
-        .replace(/&gt;/g, '>')
-        .replace(/&lt;/g, '<')
-        .replace(/&quot;/g, '"'),
+      body: util.decodeEntities(matches[++i]),
       creator: matches[++i],
       id: matches[++i],
       creator_id: matches[++i]
