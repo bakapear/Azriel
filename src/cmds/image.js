@@ -21,7 +21,7 @@ module.exports = {
     }
     let item = res.item
     let url = await head(item.o.u) ? item.o.u : item.t.u
-    let img = await util.attachImages([url])
+    let img = await util.attachImages([decodeURIComponent(url)])
     return msg.channel.send({ files: img })
   }
 }
@@ -44,7 +44,7 @@ async function getImages (query) {
   let json = null
   try {
     json = JSON.parse(body.substring(start, end))[31][0][12][2]
-  } catch (e) { console.log(e); return [] }
+  } catch (e) { return [] }
   for (let i = 0; i < json.length; i++) {
     let data = json[i][1]
     if (!data) continue
