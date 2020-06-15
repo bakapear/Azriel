@@ -26,7 +26,6 @@ module.exports = {
     date.setFullYear(item.startDate.year, item.startDate.month, item.startDate.day)
     return util.showEmbed(msg.channel, {
       title: item.title.romaji,
-      color: 4044018,
       url: item.siteUrl,
       description: desc,
       thumbnail: {
