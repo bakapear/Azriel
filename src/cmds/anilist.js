@@ -24,6 +24,8 @@ module.exports = {
     if (desc.length > 1000) desc = desc.substr(0, 1000) + '...'
     let date = new Date()
     date.setFullYear(item.startDate.year, item.startDate.month, item.startDate.day)
+    let size = item.type === 'MANGA' ? `${item.chapters} Chapters ${item.volumes} Volumes` : `${item.episodes} Episodes`
+    if (size.indexOf('null') >= 0) size = 'ongoing'
     return util.showEmbed(msg.channel, {
       title: item.title.romaji,
       url: item.siteUrl,
@@ -33,7 +35,7 @@ module.exports = {
       },
       timestamp: date.toLocaleDateString(),
       footer: {
-        text: `${item.meanScore}/100 | ${item.episodes} Episodes | ${item.type}`
+        text: `${item.meanScore}/100 | ${size} | ${item.type}`
       }
     })
   }
@@ -42,7 +44,7 @@ module.exports = {
 async function getAnime (search) {
   let body = await dp.post('https://graphql.anilist.co', {
     data: {
-      query: 'query ($id: Int, $page: Int, $perPage: Int, $search: String) { Page(page: $page, perPage: $perPage) { media(id: $id, search: $search) { id title { romaji } description startDate { year month day } type episodes coverImage { large } meanScore siteUrl } } }',
+      query: 'query ($id: Int, $page: Int, $perPage: Int, $search: String) { Page(page: $page, perPage: $perPage) { media(id: $id, search: $search) { id title { romaji } description startDate { year month day } type episodes chapters volumes coverImage { large } meanScore siteUrl } } }',
       variables: { search: search, perPage: 10 }
     },
     type: 'json'
