@@ -110,7 +110,7 @@ let actions = {
     return `Renamed folder '${folder}' to '${name}'!`
   },
   list: async (user, folder) => {
-    let bin = await gist()
+    let bin = await gist(null, true)
     if (!bin[user] || !Object.keys(bin[user]).length) return 'You don\'t have any folders!'
     if (!folder) {
       return Object.entries(bin[user]).map(x => {
@@ -141,7 +141,7 @@ let actions = {
     return `Removed item at #${index} from '${folder}'!`
   },
   custom: async (user, folder) => {
-    let bin = await gist()
+    let bin = await gist(null, true)
     if (!bin[user] || !Object.keys(bin[user]).length) return 'You don\'t have any folders!'
     if (!folder) return [].concat.apply([], Object.values(bin[user]))
     if (!bin[user][folder]) return `The folder '${folder}' does not exist!`
@@ -152,8 +152,8 @@ let actions = {
 
 let cache = null
 
-async function gist (data) {
-  if (!data && cache) return cache
+async function gist (data, quick) {
+  if (quick && cache) return cache
   let file = 'custom.json'
   let opts = {
     headers: {
