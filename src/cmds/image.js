@@ -20,7 +20,7 @@ module.exports = {
       })
     }
     let item = res.item
-    let url = await head(item.o.u) ? item.o.u : item.t.u
+    let url = await util.checkImage(item.o.u) ? item.o.u : item.t.u
     let img = await util.attachImages([decodeURIComponent(url)])
     return msg.channel.send({ files: img })
   }
@@ -63,13 +63,4 @@ async function getImages (query) {
     result.push(item)
   }
   return result
-}
-
-async function head (url) {
-  let res = await dp.head(url).catch(e => e)
-  if ((res.statusCode || res.code) <= 200) {
-    let size = Number(res.headers['content-length'] || '0')
-    let type = res.headers['content-type'] || ''
-    return size <= 8000000 && size > 0 && type.indexOf('image') >= 0 && type.indexOf('svg') < 0
-  }
 }

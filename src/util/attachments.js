@@ -1,4 +1,5 @@
 let dp = require('despair')
+const { m } = require('.')
 
 let mimeTypes = {
   'image/png': 'png',
@@ -18,6 +19,14 @@ let main = {
       } catch (e) {}
     }
     return arr
+  },
+  checkImage: async url => {
+    let res = await dp.head(url).catch(e => e)
+    if ((res.statusCode || res.code) <= 200) {
+      let size = Number(res.headers['content-length'] || '0')
+      let type = res.headers['content-type'] || ''
+      return size <= 8000000 && size > 0 && type.indexOf('image') >= 0 && type.indexOf('svg') < 0
+    }
   }
 }
 
