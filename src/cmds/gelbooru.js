@@ -20,9 +20,12 @@ module.exports = {
     let item = res.item
     let webm = item.image.endsWith('.webm')
     if (!webm && !await util.checkImage(item.file_url)) {
-      item.file_url = item.file_url.replace('images/', 'samples/').replace('.png', '.jpg')
-      let index = item.file_url.lastIndexOf('/')
-      item.file_url = item.file_url.substr(0, index + 1) + 'sample_' + item.file_url.substr(index + 1)
+      if (item.file_url.endsWith('.gif')) webm = true
+      else {
+        item.file_url = item.file_url.replace('images/', 'samples/').replace('.png', '.jpg')
+        let index = item.file_url.lastIndexOf('/')
+        item.file_url = item.file_url.substr(0, index + 1) + 'sample_' + item.file_url.substr(index + 1)
+      }
     }
     if (res.isList) {
       if (webm) msg.channel.send(item.file_url)
