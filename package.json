@@ -7,7 +7,7 @@
     "@discordjs/opus": "^0.1.0",
     "despair": "^2.1.1",
     "discord.js": "^12.2.0",
-    "ytt": "^1.0.7"
+    "ytt": "^1.0.8"
   },
   "devDependencies": {},
   "scripts": {},
