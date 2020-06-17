@@ -21,7 +21,7 @@ module.exports = {
     }
     let item = res.item
     let url = await util.checkImage(item.o.u) ? item.o.u : item.t.u
-    let img = await util.attachImages([decodeURIComponent(url)])
+    let img = await util.attachImages([url])
     return msg.channel.send({ files: img })
   }
 }
