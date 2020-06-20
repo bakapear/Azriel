@@ -15,7 +15,7 @@ module.exports = {
     return util.showEmbed(msg.channel, {
       title: user.name,
       description: [
-        `${user.flag ? `:flag_${user.flag.toLowerCase()}: ` : ''}(${user.level}) ${user.created.substr(0, user.created.indexOf('T'))}\n`,
+        user.private ? 'PRIVATE\n' : `${user.flag ? `:flag_${user.flag.toLowerCase()}: ` : ''}(${user.level}) ${user.created.substr(0, user.created.indexOf('T'))}\n`,
         ...user.stats.map(x => `**${x[0]}**   ${x[1]}`)
       ].join('\n'),
       url: user.url,
@@ -34,16 +34,18 @@ async function getPlayerData (user) {
   }).catch(e => { return { body: null } })
   if (!body) return null
   let $ = hy(body)
+  let date = $('.player-info .number')[0]
   let res = {
     name: util.decodeEntities($('.header-title>a').text()),
     url: $('.header-title>a')[0].attribs.href,
     avatar: $('.avatar')[0].attribs.src,
     level: Number($('.friendPlayerLevel').text()),
     flag: $('.flag')[0],
-    created: $('.player-info .number')[0].attribs.title,
+    created: date ? date.attribs.title : null,
     stats: $('table')[0].children[1].children.filter(x => x.type === 'element').map(x => [$(x.children[1]).text(), $(x.children[3]).text()]).slice(0, -1)
   }
   if (res.flag) res.flag = res.flag.attribs.alt
   if (res.avatar.endsWith('appicon.svg')) res.avatar = 'https://uh.s-ul.eu/hxOaPbQB.jpg'
+  if ($('.warning-no-games>p').text().startsWith('This profile is private')) res.private = true
   return res
 }
