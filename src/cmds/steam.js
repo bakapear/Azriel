@@ -16,7 +16,7 @@ module.exports = {
       title: user.name,
       description: [
         user.private ? 'PRIVATE\n' : `${user.flag ? `:flag_${user.flag.toLowerCase()}: ` : ''}(${user.level}) ${user.created.substr(0, user.created.indexOf('T'))}\n`,
-        ...user.stats.map(x => `**${x[0]}**   ${x[1]}`)
+        ...user.stats.map(x => `**${x[0]}** ${x[1]}`)
       ].join('\n'),
       url: user.url,
       thumbnail: { url: user.avatar }

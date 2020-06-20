@@ -58,10 +58,8 @@ async function getPosts (query) {
         json: 1
       }
     }).json()
-    return res.filter(x =>
-      x.tags.indexOf('scat') < 0 &&
-      x.tags.indexOf('guro') < 0 &&
-      x.tags.indexOf('furry') < 0 &&
-      x.tags.indexOf('astolfo_(fate)') < 0)
+    return res.filter(x => blacklist.every(y => x.tags.indexOf(y) < 0))
   } catch (e) { return [] }
 }
+
+let blacklist = ['scat', 'guro', 'furry', 'astolfo_(fate)', 'diaper']
