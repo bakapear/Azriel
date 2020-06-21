@@ -17,7 +17,7 @@ function getToTime (h = 0, m = 0, s = 0, ms = 0) {
 
 function setTimer () {
   setTimeout(() => {
-    channel.send('Don\'t forget to claim your shit, <@284425943034888204>!')
+    channel.send('Don\'t forget to drink water, <@284425943034888204>!')
     setTimer()
   }, getToTime(14))
 }
