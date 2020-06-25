@@ -13,7 +13,7 @@ module.exports = {
     if (!channel) return msg.channel.send('Invalid channel!')
     let pins = await msg.channel.messages.fetchPinned()
     let size = pins.size
-    await pins.forEach(async pin => {
+    await pins.array().reverse().forEach(async pin => {
       await util.showEmbed(channel, {
         description: pin.content,
         image: {
@@ -27,7 +27,7 @@ module.exports = {
       }, `> https://discordapp.com/channels/${msg.guild.id}/${pin.channel.id}/${pin.id}`)
       await pin.delete()
     })
-    return msg.channel.send(`Moved ${size} pins to <#${channel.id}>`)
+    return msg.channel.send(`Moved ${size} pin${size === 1 ? '' : 's'} to <#${channel.id}>`)
   }
 }
 
