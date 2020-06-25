@@ -1,8 +1,9 @@
 /* global bot */
+let util = require('../util')
 
 module.exports = {
   name: 'pushpins',
-  aliases: [''],
+  aliases: [],
   description: 'Archives all pins into a channel.',
   permissions: ['BAN_MEMBERS'],
   args: 1,
@@ -12,15 +13,19 @@ module.exports = {
     if (!channel) return msg.channel.send('Invalid channel!')
     let pins = await msg.channel.messages.fetchPinned()
     let size = pins.size
-    pins.forEach(async pin => {
-      await new Promise(resolve => {
-        setTimeout(() => {
-          channel.send(`https://discordapp.com/channels/${msg.guild.id}/${pin.channel.id}/${pin.id}`).then(() => {
-            // pin.delete().then(resolve)
-            resolve()
-          })
-        }, 500)
-      })
+    await pins.forEach(async pin => {
+      await util.showEmbed(channel, {
+        description: pin.content,
+        image: {
+          url: pin.attachments.first() ? pin.attachments.first().url : null
+        },
+        footer: {
+          text: pin.author.username,
+          icon_url: pin.author.avatarURL()
+        },
+        timestamp: pin.createdAt
+      }, `> https://discordapp.com/channels/${msg.guild.id}/${pin.channel.id}/${pin.id}`)
+      await pin.delete()
     })
     return msg.channel.send(`Moved ${size} pins to <#${channel.id}>`)
   }
