@@ -15,12 +15,12 @@ module.exports = {
       return util.showEmbedList(msg.channel, res.items, res.offset, items => {
         return {
           title: `Listing playlists including '${res.search}'`,
-          description: items.map(x => `[${x.name}](${x.url})`).join('\n')
+          description: items.map(x => `[${x.title}](https://youtube.com/playlist?list=${x.id})`).join('\n')
         }
       })
     }
     let item = res.item
-    return msg.channel.send(item.url)
+    return msg.channel.send('https://youtube.com/playlist?list=' + item.id)
   }
 }
 
