@@ -1,5 +1,4 @@
 let dp = require('despair')
-const { m } = require('.')
 
 let mimeTypes = {
   'image/png': 'png',
