@@ -33,14 +33,16 @@ module.exports = {
         return msg.channel.send(await actions.rename(user, cmd.args[1].toLowerCase(), cmd.args[2].toLowerCase()))
       }
       case 'list': {
-        let res = await actions.list(user)
+        let res = await util.poker(() => actions.list(user), cmd)
         if (res.constructor === String) return msg.channel.send(res)
-        return util.showEmbed(msg.channel, {
-          author: {
-            name: `${msg.author.username}'s custom folders (${res.length})`,
-            icon_url: msg.author.avatarURL()
-          },
-          footer: { text: res.map(x => `[${x[0]} (${x[1]}x)]`).join(' ') }
+        return util.showEmbedList(msg.channel, res.items, res.offset, items => {
+          return {
+            author: {
+              name: 'folders',
+              icon_url: msg.author.avatarURL()
+            },
+            description: items.map((x, i) => `${i + res.offset + 1}. ${x[0]} (${x[1]}x)`).join('\n')
+          }
         })
       }
       case 'add': {
