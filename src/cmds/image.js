@@ -40,7 +40,7 @@ async function getImages (query) {
   })
   let result = []
   let start = body.indexOf('data:', body.indexOf("ds:1',")) + 5
-  let end = body.indexOf('});</script>', start) - 1
+  let end = body.indexOf(', sideChannel: {', start)
   let json = null
   try {
     json = JSON.parse(body.substring(start, end))[31][0][12][2]
