@@ -17,7 +17,12 @@ function getToTime (h = 0, m = 0, s = 0, ms = 0) {
 
 function setTimer () {
   setTimeout(() => {
-    channel.send('Don\'t forget to drink water, <@284425943034888204>!')
+    if (channel) {
+      channel.send({
+        content: '<@284425943034888204>',
+        files: [{ attachment: 'https://uh.s-ul.eu/z0ueTQu6.mp4', name: 'beel-health-check.mp4' }]
+      })
+    }
     setTimer()
   }, getToTime(14))
 }
