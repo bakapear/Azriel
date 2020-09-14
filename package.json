@@ -11,7 +11,9 @@
     "ytt": "^2.0.3"
   },
   "devDependencies": {},
-  "scripts": {},
+  "scripts": {
+    "start": "node index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bakapear/Azriel.git"
