@@ -27,6 +27,7 @@ async function translate (text, target = 'en', source = 'auto') {
       lang: source === 'auto' ? target : (source + '-' + target)
     }
   }).json().catch(e => e)
+  if (res.body) throw new Error(JSON.parse(res.body).message)
   res.from = source
   res.to = target
   res.text = res.text[0]

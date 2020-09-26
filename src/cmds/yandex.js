@@ -38,13 +38,15 @@ async function reverseImageYandex (url) {
   let res = []
   let images = $('.serp-item')
   for (let i = 0; i < images.length; i++) {
-    let data = JSON.parse(images[i].attribs['data-bem'])['serp-item']
-    res.push({
-      title: data.snippet.title,
-      description: data.snippet.text,
-      url: data.snippet.url,
-      img: data.preview[0].url
-    })
+    try {
+      let data = JSON.parse(images[i].attribs['data-bem'])['serp-item']
+      res.push({
+        title: data.snippet.title,
+        description: data.snippet.text,
+        url: data.snippet.url,
+        img: data.preview[0].url
+      })
+    } catch (e) { continue }
   }
   return res
 }
