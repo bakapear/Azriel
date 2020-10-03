@@ -72,6 +72,11 @@ async function google (query) {
             details
           ].join('\n')
         }
+      } else if (g[i].attribs['data-md'] === '14') {
+        res.snippet = {
+          title: item.find('.XcVN5d').text(true),
+          desc: item.find('.QIclbb').text(true)
+        }
       } else if (item.find('.viOShc').length) {
         res.snippet = {
           title: item.find('.Z0LcW').text(true),
