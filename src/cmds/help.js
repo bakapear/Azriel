@@ -4,7 +4,7 @@ let handler = require('../handler')
 
 module.exports = {
   name: 'help',
-  aliases: ['?', 'cmd'],
+  aliases: ['?', 'cmd', 'cmds', 'commands'],
   description: 'Gets information about a command.',
   permissions: [],
   args: 0,
