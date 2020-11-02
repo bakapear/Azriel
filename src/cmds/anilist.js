@@ -20,7 +20,7 @@ module.exports = {
       })
     }
     let item = res.item
-    let desc = item.description.replace(/<\/?br\/?>/g, '\n').replace(/<\/?b>/g, '**').replace(/<\/?i>/g, '_').replace(/\n\n/g, '\n')
+    let desc = (item.description || '').replace(/<\/?br\/?>/g, '\n').replace(/<\/?b>/g, '**').replace(/<\/?i>/g, '_').replace(/\n\n/g, '\n')
     if (desc.length > 1000) desc = desc.substr(0, 1000) + '...'
     let date = new Date()
     date.setFullYear(item.startDate.year, item.startDate.month, item.startDate.day)
@@ -30,8 +30,8 @@ module.exports = {
       title: item.title.romaji,
       url: item.siteUrl,
       description: desc,
-      thumbnail: {
-        url: item.coverImage.large
+      image: {
+        url: 'https://img.anili.st/media/' + item.id
       },
       timestamp: date.toLocaleDateString(),
       footer: {
@@ -44,7 +44,7 @@ module.exports = {
 async function getAnime (search) {
   let body = await dp.post('https://graphql.anilist.co', {
     data: {
-      query: 'query ($id: Int, $page: Int, $perPage: Int, $search: String) { Page(page: $page, perPage: $perPage) { media(id: $id, search: $search) { id title { romaji } description startDate { year month day } type episodes chapters volumes coverImage { large } meanScore siteUrl } } }',
+      query: 'query ($id: Int, $page: Int, $perPage: Int, $search: String) { Page(page: $page, perPage: $perPage) { media(id: $id, search: $search) { id title { romaji } description startDate { year month day } type episodes chapters volumes meanScore siteUrl } } }',
       variables: { search: search, perPage: 10 }
     },
     type: 'json'
