@@ -20,7 +20,7 @@ function setTimer () {
     if (channel) {
       channel.send({
         content: '<@284425943034888204>',
-        files: [{ attachment: 'https://uh.s-ul.eu/z0ueTQu6.mp4', name: 'beel-health-check.mp4' }]
+        files: [{ attachment: 'https://uh.s-ul.eu/3lArisA7.mp4', name: 'beel-health-check.mp4' }]
       })
     }
     setTimer()
