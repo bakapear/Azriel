@@ -2,7 +2,7 @@
 let util = require('../util')
 
 module.exports = msg => {
-  if (msg.content.startsWith('https://discordapp.com/channels')) {
+  if (msg.content.startsWith('https://discord.com/channels')) {
     let arg = msg.content.split(' ')[0]
     let parts = arg.substr(msg.content.indexOf('/channels/') + 10).split('/')
     if (parts.length === 3) {
