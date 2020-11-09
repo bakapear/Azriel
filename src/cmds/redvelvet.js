@@ -1,4 +1,3 @@
-let dp = require('despair')
 let util = require('../util')
 let members = ['irene', 'wendy', 'seulgi', 'joy', 'yeri']
 
@@ -17,17 +16,8 @@ module.exports = {
   }
 }
 
-let cache = null
-
 async function getVelvets (member) {
-  let data = await getData()
+  let data = require('../data/velvet.json')
   data = data[members.includes(member) ? member : util.randomItem(members)]
   return data
-}
-
-async function getData () {
-  if (!cache) {
-    cache = await dp('https://raw.githubusercontent.com/bakapear/VelvetData/master/data.json').json()
-  }
-  return cache
 }

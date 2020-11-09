@@ -1,5 +1,4 @@
 let util = require('../util')
-let dp = require('despair')
 
 module.exports = {
   name: 'orangejuice',
@@ -25,17 +24,8 @@ module.exports = {
   }
 }
 
-let cache = null
-
 async function getCards (query) {
-  let data = await getData()
+  let data = require('../data/juice.json')
   query = query.toLowerCase()
   return data.filter(x => x.name.toLowerCase().indexOf(query) >= 0)
-}
-
-async function getData () {
-  if (!cache) {
-    cache = await dp('https://raw.githubusercontent.com/bakapear/JuiceData/master/data.json').json()
-  }
-  return cache
 }
