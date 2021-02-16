@@ -21,8 +21,6 @@ module.exports = {
 
     let item = g.items[0]
 
-    console.log(item)
-
     let embed = new Discord.MessageEmbed()
       .setTitle(item.title)
       .setURL(item.url)
@@ -157,6 +155,8 @@ async function google (search, markdown) {
         }) || md(item.find('.ZGh7Vc')[0]) || null
       }
     }
+    let thumb = item.find('.GNxIwf img')[0]
+    if (thumb) res.extra.thumbnail = dimg[thumb.attribs.id] || null
     if (i === 0 && mod.length) {
       if (!res.description) res.description = md(mod.find('.hgKElc')[0])
       if (!res.extra.footer) res.extra.footer = mod.find('.kX21rb').text() || null
