@@ -21,6 +21,8 @@ module.exports = {
 
     let item = g.items[0]
 
+    console.log(item)
+
     let embed = new Discord.MessageEmbed()
       .setTitle(item.title)
       .setURL(item.url)
@@ -143,7 +145,7 @@ async function google (search, markdown) {
       title: item.find('.DKV0Md').text(),
       url: url.attribs.href,
       path: item.find('.NJjxre').text(),
-      description: md(item.find('.aCOpRe span').pop()),
+      description: md(item.find('.aCOpRe span').pop()) || md(item.find('.hgKElc')[0]),
       extra: {
         footer: item.find('.aCOpRe span.f').text().slice(0, -3) || item.find('.fG8Fp.uo4vr').text() || item.find('.Od5Jsd').text() || null,
         links: md(item.find('.HiHjCd')[0]) || md(item.find('.P1usbc')[0], (x, i, a) => {
