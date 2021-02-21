@@ -3,11 +3,6 @@ let Discord = require('discord.js')
 let dp = require('despair')
 let hy = require('honesty')
 
-let env = {
-  GOOGLE_SID: process.env.GOOGLE_SID,
-  GOOGLE_NID: process.env.GOOGLE_NID
-}
-
 module.exports = {
   name: 'google',
   aliases: ['g'],
@@ -115,9 +110,8 @@ async function google (search, markdown) {
   }
 
   let body = await dp('https://www.google.com/search', {
-    query: { q: search },
+    query: { q: search, lr: 'lang_en', hl: 'en' },
     headers: {
-      Cookie: `__Secure-3PSID=${env.GOOGLE_SID};NID=${env.GOOGLE_NID};`,
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36'
     }
   }).text()
@@ -133,7 +127,7 @@ async function google (search, markdown) {
 
   let $ = hy(body)
 
-  let items = $('#rso>.g').map((item, i) => {
+  let items = $('.hlcw0c>.g').map((item, i) => {
     item = $(item)
     let url = item.find('.yuRUbf>a')[0]
     if (!url) return null
