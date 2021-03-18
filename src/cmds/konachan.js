@@ -46,7 +46,7 @@ async function getPosts (query) {
         limit: 250
       }
     }).json()
-    return res.filter(x => blacklist.every(y => x.tags.indexOf(y) < 0))
+    return res.filter(x => blacklist.every(y => x.tags.indexOf(y) < 0)).filter(x => x.rating !== 'e' && x.rating !== 'q')
   } catch (e) { return [] }
 }
 
