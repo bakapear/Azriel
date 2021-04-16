@@ -62,4 +62,4 @@ async function getPosts (query) {
   } catch (e) { return [] }
 }
 
-let blacklist = ['scat', 'guro', 'furry', 'astolfo_(fate)', 'diaper', 'twerking']
+let blacklist = ['scat', 'guro', 'furry', 'astolfo_(fate)', 'diaper', 'twerking', 'loli']
