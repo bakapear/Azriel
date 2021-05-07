@@ -1,38 +1,40 @@
-let util = require('../util')
 let dp = require('despair')
 
 module.exports = {
   name: 'tempus',
   aliases: ['tpus'],
-  description: 'Gets map/player information of tempus servers.',
-  permissions: [],
+  description: 'Get map/player information of tempus servers',
   args: 2,
   usage: 'player <steamid> | map <name>',
-  exec: async (msg, cmd) => {
+  async exec (msg, cmd) {
     switch (cmd.args[0].toLowerCase()) {
       case 'player': {
         let player = await getPlayerStats(cmd.args[1])
         if (player.error) return msg.channel.send(player.error)
-        return util.showEmbed(msg.channel, {
-          title: player.player_info.name,
-          description: [
+        return msg.channel.send({
+          embed: {
+            title: player.player_info.name,
+            description: [
               `**Soldier** - #${player.class_rank_info[3].rank} (${player.class_rank_info[3].points} Points)`,
               `**Demoman** - #${player.class_rank_info[4].rank} (${player.class_rank_info[4].points} Points)`,
               `**Overall** - #${player.rank_info.rank} (${player.rank_info.points} Points)`,
               `**${player.player_info.country}** - ${player.country_rank_info.rank}/${player.country_rank_info.total_ranked}`
-          ].join('\n')
+            ].join('\n')
+          }
         })
       }
       case 'map': {
         let map = await getMapStats(cmd.args[1].toLowerCase())
         if (map.error) return msg.channel.send(map.error)
-        return util.showEmbed(msg.channel, {
-          title: map.map_info.name,
-          description: [
+        return msg.channel.send({
+          embed: {
+            title: map.map_info.name,
+            description: [
               `[S${map.tier_info.soldier} D${map.tier_info.demoman}] by ${map.authors.map(x => x.name).join(', ')}\n`,
               `**Soldier WR** ${time(map.soldier_runs[0].duration * 1000)} > ${map.soldier_runs[0].name}`,
               `**Demoman WR** ${time(map.demoman_runs[0].duration * 1000)} > ${map.demoman_runs[0].name}`
-          ].join('\n')
+            ].join('\n')
+          }
         })
       }
     }

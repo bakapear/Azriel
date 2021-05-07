@@ -1,7 +1,11 @@
-let util = require('../util')
+/* global cfg, env */
+
+// big ugly port of old one for now
+// TODO
+
 let dp = require('despair')
-let key = process.env.GITHUB
-let secret = process.env.GIST
+let key = env.GITHUB
+let secret = env.GIST
 
 module.exports = {
   name: 'custom',
@@ -176,4 +180,57 @@ async function gist (data, quick) {
   }
   cache = JSON.parse(body.files[file].content)
   return cache
+}
+
+let rnd = {
+  randomFloat: (min, max) => Math.random() * (max - min) + min,
+  randomInt: (min, max) => {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  },
+  randomIndex: arr => rnd.randomInt(0, arr.length - 1),
+  randomItem: arr => arr[rnd.randomIndex(arr)]
+}
+
+let util = {
+  poker: async (fn, cmd, opts = {}) => {
+    if (cmd.prefix === cfg.prefix.random) opts.forceRandom = true
+    let args = cmd.args.slice()
+    let arg = x => args[args.length - x]
+    let offset = (!isNaN(arg(1)) || arg(1) === '?') ? args.pop() : null
+    let isList = arg(1) === '!'
+    if (isList) args.pop()
+    let search = args.join(' ')
+    let items = await fn(search)
+    if (opts.forceRandom || (!args.length && offset === null && !isList) || offset === '?') {
+      offset = rnd.randomIndex(items)
+    } else {
+      if (offset === null) {
+        if (!isList && opts.default && (opts.default === '?' || !isNaN(opts.default))) {
+          if (opts.default === '?') offset = rnd.randomIndex(items)
+          else offset = parseInt(offset)
+        } else offset = 0
+      } else offset = parseInt(offset) - 1
+      if (offset >= items.length) offset = items.length - 1
+      else if (offset < 0) offset = items.length + offset
+      if (offset < 0) offset = 0
+    }
+    return { items, offset, isList, item: items[offset], search }
+  },
+  showEmbed: (chan, obj, content) => {
+    return chan.send({
+      embed: { ...obj },
+      content: content || null
+    })
+  },
+  showEmbedList: (chan, items, offset, fn, max = 10) => {
+    let total = items.length
+    items.splice(0, offset)
+    if (items.length > max) items.length = max
+    return util.showEmbed(chan, {
+      ...fn(items),
+      footer: { text: `Showing ${items.length} items (${offset} - ${total})` }
+    })
+  }
 }

@@ -1,65 +1,70 @@
-let util = require('../util')
 let dp = require('despair')
+let { util } = require('../mod')
 
-module.exports = {
-  name: 'gelbooru',
-  aliases: ['gel'],
-  description: 'Gets a naughty post from Gelbooru.',
-  permissions: [],
-  args: 0,
-  usage: '(tags) (poker)',
-  exec: async (msg, cmd) => {
-    cmd.args = cmd.args.map(x => {
-      if (x === 's' || x === 'safe') x = 'rating:safe'
-      if (x === 'q' || x === 'questionable') x = 'rating:questionable'
-      if (x === 'e' || x === 'explicit') x = 'rating:explicit'
-      return x
-    })
-    let res = await util.poker(getPosts, cmd)
-    if (!res.items.length) return msg.channel.send('Nothing found!')
-    let item = res.item
-    let webm = item.image.endsWith('.webm')
-    if (!webm && !await util.checkImage(item.file_url)) {
-      if (item.file_url.endsWith('.gif')) webm = true
-      else {
-        item.file_url = item.file_url.replace('images/', 'samples/').replace('.png', '.jpg')
-        let index = item.file_url.lastIndexOf('/')
-        item.file_url = item.file_url.substr(0, index + 1) + 'sample_' + item.file_url.substr(index + 1)
-      }
-    }
-    if (res.isList) {
-      if (webm) msg.channel.send(item.file_url)
-      return util.showEmbed(msg.channel, {
-        title: item.owner,
-        url: 'https://gelbooru.com/index.php?page=post&s=view&id=' + item.id,
-        image: !webm ? { url: item.file_url } : null,
-        timestamp: item.created_at,
-        footer: { text: item.rating + ' | ' + util.decodeEntities(item.tags) }
+module.exports = [
+  {
+    name: 'gelbooru',
+    aliases: ['gel'],
+    description: 'Get a naughty image from Gelbooru',
+    async exec (msg, cmd) {
+      let args = cmd.args.map(x => {
+        if (x === 's' || x === 'safe') x = 'rating:safe'
+        if (x === 'q' || x === 'questionable') x = 'rating:questionable'
+        if (x === 'e' || x === 'explicit') x = 'rating:explicit'
+        if (x === 'r' || x === 'random') x = 'sort:random'
+        return x
       })
+      if (!args.length || cmd.random) args.push('sort:random')
+
+      let item = await getGelbooruImage(args)
+      if (!item) return msg.channel.send('Nothing found!')
+
+      if (item.file_url.match(/\.(gif|webm|mp4)$/)) {
+        return msg.channel.send(item.file_url)
+      }
+
+      let sample = item.file_url.replace('images', 'samples').replace('.png', '.jpg')
+      let index = sample.lastIndexOf('/')
+      sample = sample.substr(0, index + 1) + 'sample_' + sample.substr(index + 1)
+
+      return util.sendImage(msg, item.file_url, sample)
     }
-    if (webm) {
-      return msg.channel.send(item.file_url)
-    } else {
-      let img = await util.attachImages([item.file_url])
-      return msg.channel.send({ files: img })
+  },
+  {
+    name: 'marisa',
+    aliases: ['kirisame'],
+    description: 'Display marisa kirisame',
+    async exec (msg, cmd) {
+      let item = await getGelbooruImage('kirisame_marisa 1girl rating:safe sort:random')
+      if (!item) return msg.channel.send('Nothing found!')
+
+      if (item.file_url.match(/\.(gif|webm|mp4)$/)) {
+        return msg.channel.send(item.file_url)
+      }
+
+      let sample = item.file_url.replace('images', 'samples').replace('.png', '.jpg')
+      let index = sample.lastIndexOf('/')
+      sample = sample.substr(0, index + 1) + 'sample_' + sample.substr(index + 1)
+
+      return util.sendImage(msg, item.file_url, sample)
     }
   }
-}
+]
 
-async function getPosts (query) {
+let BLACKLIST = ['scat', 'guro', 'furry', 'diaper', 'twerking']
+
+async function getGelbooruImage (args) {
   try {
     let res = await dp('https://gelbooru.com/index.php', {
       query: {
-        tags: query,
+        tags: [...BLACKLIST.map(x => `-${x}`), ...args].join(' '),
         page: 'dapi',
         s: 'post',
         q: 'index',
-        limit: 250,
+        limit: 1,
         json: 1
       }
     }).json()
-    return res.filter(x => blacklist.every(y => x.tags.indexOf(y) < 0))
-  } catch (e) { return [] }
+    return res[0]
+  } catch (e) { return null }
 }
-
-let blacklist = ['scat', 'guro', 'furry', 'astolfo_(fate)', 'diaper', 'twerking', 'loli']

@@ -1,13 +1,12 @@
-let util = require('../util')
+let { util } = require('../mod')
 
 module.exports = {
   name: 'choice',
   aliases: ['pick', 'decide'],
-  description: 'I will pick one of the choices given.',
-  permissions: [],
+  description: 'I will pick one of the choices given',
   args: 2,
   usage: '<choice1> <choice2> (choice3) (...)',
-  exec: async (msg, cmd) => {
+  async exec (msg, cmd) {
     return msg.channel.send(util.randomItem(cmd.args))
   }
 }

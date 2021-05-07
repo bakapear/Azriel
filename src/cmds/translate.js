@@ -1,15 +1,13 @@
-let util = require('../util')
 let qr = require('querystring')
 let dp = require('despair')
 
 module.exports = {
   name: 'translate',
   aliases: ['trans'],
-  description: 'Translates text.',
-  permissions: [],
+  description: 'Translate from one language to another',
   args: 1,
   usage: '<text> (-lang)',
-  exec: async (msg, cmd) => {
+  async exec (msg, cmd) {
     let lang = 'en'
     let text = cmd.content
     if (cmd.args[cmd.args.length - 1].startsWith('-')) {
@@ -19,9 +17,14 @@ module.exports = {
     }
     let res = await translateGoogle(text, lang)
     if (res.error) return msg.channel.send(res.error)
-    return util.showEmbed(msg.channel, {
-      description: res.text,
-      footer: { text: `${res.lang.from}-${res.lang.to} | ${res.acc}% Accuracy` }
+
+    return msg.channel.send({
+      embed: {
+        description: res.text,
+        footer: {
+          text: `${res.lang.from}-${res.lang.to} | ${res.acc}% Accuracy`
+        }
+      }
     })
   }
 }

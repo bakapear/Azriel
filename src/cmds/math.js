@@ -3,11 +3,10 @@ let dp = require('despair')
 module.exports = {
   name: 'math',
   aliases: ['m', 'calc'],
-  description: 'Evaluates a mathematical expression.',
-  permissions: [],
+  description: 'Evaluate a mathematical expression',
   args: 1,
   usage: '<expression>',
-  exec: async (msg, cmd) => {
+  async exec (msg, cmd) {
     return msg.channel.send(await doMath(cmd.content))
   }
 }

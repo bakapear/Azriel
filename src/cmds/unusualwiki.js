@@ -1,27 +1,26 @@
-let util = require('../util')
+let { util } = require('../mod')
 let dp = require('despair')
 let hy = require('honesty')
 
 module.exports = {
   name: 'unusualwiki',
   aliases: ['uwa'],
-  description: 'Gets a random unusual wikipedia article.',
-  permissions: [],
-  args: 0,
-  usage: '',
+  description: 'Get a random Unusual Wikipedia Article',
   exec: async (msg, cmd) => {
     let articles = await getArticles()
     let item = util.randomItem(articles)
-    return util.showEmbed(msg.channel, {
-      title: item.name,
-      url: 'https://en.wikipedia.org' + item.url,
-      description: item.desc
+    return msg.channel.send({
+      embed: {
+        title: item.name,
+        url: 'https://en.wikipedia.org' + item.url,
+        description: item.desc
+      }
     })
   }
 }
 
 async function getArticles () {
-  let { body } = await dp('https://en.wikipedia.org/wiki/Wikipedia:Unusual_articles')
+  let body = await dp('https://en.wikipedia.org/wiki/Wikipedia:Unusual_articles').text()
   let $ = hy(body)
   let list = $('.wikitable tr')
   let res = []

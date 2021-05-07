@@ -1,11 +1,7 @@
 module.exports = {
   name: 'say',
-  aliases: [],
-  description: 'Wait, I didn\'t say that... Or did I?',
-  permissions: [],
-  args: 1,
-  usage: '<message>',
-  exec: async (msg, cmd) => {
+  description: 'Say something as me',
+  async exec (msg, cmd) {
     return msg.channel.send(cmd.content)
   }
 }

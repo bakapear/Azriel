@@ -1,51 +1,21 @@
-let Discord = require('discord.js')
-let bot = new Discord.Client()
-let cfg = require('./config.json')
-let handler = require('./handler')
-let gadgets = require('./gadgets')
-let util = require('./util')
-let MediaPlayer = require('./modules/MediaPlayer')
+let { handler, gadgets } = require('./mod')
 
-handler.global({ bot, cfg, MediaPlayer })
+let cfg = handler.readJSON('src/config.json')
+let env = handler.loadEnv('.env')
+let bot = new (require('discord.js')).Client()
 
-bot.on('ready', () => {
-  gadgets.init()
-  handler.loadCommands([__dirname, 'cmds'])
-  handler.log(`Your personal servant ${bot.user.tag} is waiting for orders!`)
+handler.exposeToGlobal({ cfg, env, bot })
+
+handler.loadCommands([__dirname, 'cmds'])
+
+bot.login(env.TOKEN)
+
+bot.on('ready', () => gadgets.init())
+
+bot.on('message', async msg => {
+  if (await gadgets.pass(msg)) handler.handleCommand(msg)
 })
 
-bot.on('message', msg => {
-  if (!gadgets.pass(msg)) return
-  handleCommand(msg)
-})
-
-function handleCommand (msg) {
-  let res = handler.make(msg)
-  if (res.command) {
-    if (!res.metPerms) {
-      msg.channel.send([
-        'You need the following permissions to execute this command:',
-        `\`${res.command.permissions.join('` `')}\``
-      ].join('\n'))
-    } else if (!res.metArgs) {
-      msg.channel.send(
-        `Usage: \`${res.cmd.prefix}${res.cmd.name}${res.command.usage ? ` ${res.command.usage}` : ''}\``
-      )
-    } else {
-      handler.executeCommand(msg, res).catch(e => {
-        handler.error(e)
-        util.showError(msg, e)
-      })
-      if (cfg.logging) handler.logAction(`${msg.author.id}|${msg.author.username}`, res.cmd.str)
-    }
-    return true
-  }
-}
-
-bot.login(process.env.TOKEN)
-bot.on('error', err => handler.error('Bot error:', err))
-process.on('uncaughtException', err => handler.error('Uncaught Exception:', err))
-process.on('unhandledRejection', err => handler.error('Unhandled Rejection:', err))
 process.on('SIGINT', kill)
 process.on('SIGHUP', kill)
 

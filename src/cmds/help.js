@@ -1,33 +1,34 @@
-/* global cfg */
-let util = require('../util')
-let handler = require('../handler')
+let { handler } = require('../mod')
 
 module.exports = {
   name: 'help',
-  aliases: ['?', 'cmd', 'cmds', 'commands'],
-  description: 'Gets information about a command.',
-  permissions: [],
-  args: 0,
+  aliases: ['commands', 'cmds'],
+  description: 'Get a list of all my commands and check their usage',
   usage: '(command)',
-  exec: async (msg, cmd) => {
-    let commands = handler.getCommands()
-    if (!cmd.content) {
-      return util.showEmbed(msg.channel, {
-        description: `Commands (${commands.length})`,
-        footer: { text: commands.map(x => x.name).join(' ') }
+  async exec (msg, cmd) {
+    if (!cmd.args.length) {
+      return msg.channel.send({
+        embed: {
+          description: [
+            `Commands (${handler.CMDS.length})`
+          ].join('\n'),
+          footer: {
+            text: handler.CMDS.map(x => x.name).join(' ')
+          }
+        }
       })
     }
-    let command = commands.find(x => [x.name, ...x.aliases].includes(cmd.args[0].toLowerCase()))
-    if (command) {
-      return util.showEmbed(msg.channel, {
+    let command = handler.CMDS.find(x => x.name === cmd.args[0] || x.aliases.some(y => y === cmd.args[0]))
+    if (!command) return msg.channel.send(`Command '${cmd.args[0]}' not found!`)
+    return msg.channel.send({
+      embed: {
         title: command.name,
         description: [
-          `**Aliases**: ${command.aliases.join(', ')}`,
-          `**Description**: ${command.description}`,
-          `**Usage**: ${cfg.prefix.normal}${command.name} ${command.usage}`
+          command.aliases.length ? '**Aliases**: ' + command.aliases.join(', ') : '',
+          command.description ? '**Description**: ' + command.description : '',
+          '**Usage**: ' + `\`${cmd.prefix}${command.name} ${command.usage}\``
         ].join('\n')
-      })
-    }
-    return msg.channel.send(`The command '${cmd.args[0]}' does not exist!`)
+      }
+    })
   }
 }

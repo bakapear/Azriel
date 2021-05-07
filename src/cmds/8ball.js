@@ -1,18 +1,14 @@
-let util = require('../util')
+let { util } = require('../mod')
 
 module.exports = {
   name: '8ball',
-  aliases: [],
-  description: 'Shakes the Magic 8 Ball and tells you your fortune.',
-  permissions: [],
-  args: 0,
-  usage: '',
-  exec: async (msg, cmd) => {
-    return msg.channel.send(`:8ball: ${util.randomItem(answers)}`)
+  description: 'Shake the Magic 8 Ball to hear about your fortune',
+  async exec (msg, cmd) {
+    return msg.channel.send(`:8ball: ${util.randomItem(ANSWERS)}`)
   }
 }
 
-let answers = [
+let ANSWERS = [
   'It is certain',
   'It is decidedly so',
   'Without a doubt',

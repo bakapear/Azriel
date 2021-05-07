@@ -1,13 +1,13 @@
-let util = require('../util')
+let { util } = require('../mod')
 
 module.exports = {
   name: 'timer',
   aliases: ['t'],
-  description: 'Sets off a timer',
+  description: 'Set off a timer',
   permissions: [],
   args: 0,
   usage: '<time> / clear',
-  exec: async (msg, cmd) => {
+  async exec (msg, cmd) {
     let timer = timers[msg.author.id]
     if (!cmd.args.length) {
       if (!timer) return msg.channel.send('You have no active timer')
@@ -27,7 +27,7 @@ module.exports = {
     let date = new Date(Date.now() + ms)
     timers[msg.author.id] = {
       timeout: setTimeout(() => {
-        msg.reply(util.randomItem(replies))
+        msg.reply(util.randomItem(REPLIES))
         delete timers[msg.author.id]
       }, ms),
       text: date.toLocaleString('uk').replace(', ', ' - ')
@@ -52,7 +52,7 @@ function textToMs (str) {
   return (parts.h * 3600000) + (parts.m * 60000) + (parts.s * 1000)
 }
 
-let replies = [
+let REPLIES = [
   'RRRRRRRRRRRRRR',
   'DING DING DING',
   'Woof woof',

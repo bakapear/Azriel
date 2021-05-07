@@ -1,22 +1,13 @@
 /* global bot */
+let { util } = require('../mod')
 
 module.exports = {
   name: 'uptime',
   aliases: ['up'],
-  description: 'Displays how long I have been running for.',
-  permissions: [],
-  args: 0,
-  usage: '',
-  exec: async (msg, cmd) => {
-    return msg.channel.send([
-      `**Process**: ${t(process.uptime())}`,
-      `**Bot**: ${t(bot.uptime / 1000)}`
-    ].join('\n'))
+  description: 'Display how long I\'ve been running for',
+  async exec (msg, cmd) {
+    let ms = bot.uptime
+    let days = ~~(ms / 1000 / 60 / 60 / 24)
+    return msg.channel.send(`**Uptime**: \`${util.hms(ms, true)}\` (${days} Day${days === 1 ? '' : 's'})`)
   }
-}
-
-function t (s) {
-  let d = Math.floor(s / (3600 * 24))
-  let a = new Date(s * 1000).toISOString().substr(11, 8)
-  return `${d} Days ${a}`
 }

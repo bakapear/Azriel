@@ -1,4 +1,5 @@
-let util = require('../util')
+/* global env */
+let { util } = require('../mod')
 let Discord = require('discord.js')
 let dp = require('despair')
 let hy = require('honesty')
@@ -6,15 +7,14 @@ let hy = require('honesty')
 module.exports = {
   name: 'google',
   aliases: ['g'],
-  description: 'Search for results on google.',
-  permissions: [],
+  description: 'Search for results on google',
   args: 1,
   usage: '<query>',
-  exec: async (msg, cmd) => {
+  async exec (msg, cmd) {
     let g = await google(cmd.content, true)
     if (!g.items.length) return msg.channel.send('Nothing found!')
 
-    let item = g.items[0]
+    let item = cmd.random ? util.randomItem(g.items) : g.items[0]
 
     let embed = new Discord.MessageEmbed()
       .setTitle(item.title)
@@ -110,8 +110,9 @@ async function google (search, markdown) {
   }
 
   let body = await dp('https://www.google.com/search', {
-    query: { q: search, lr: 'lang_en', hl: 'en' },
+    query: { q: search },
     headers: {
+      Cookie: `__Secure-3PSID=${env.GOOGLE_SID};NID=${env.GOOGLE_NID};`,
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36'
     }
   }).text()
@@ -127,7 +128,7 @@ async function google (search, markdown) {
 
   let $ = hy(body)
 
-  let items = $('.hlcw0c>.g').map((item, i) => {
+  let items = $('#rso>.g').map((item, i) => {
     item = $(item)
     let url = item.find('.yuRUbf>a')[0]
     if (!url) return null
@@ -137,7 +138,7 @@ async function google (search, markdown) {
       title: item.find('.DKV0Md').text(),
       url: url.attribs.href,
       path: item.find('.NJjxre').text(),
-      description: md(item.find('.aCOpRe span').pop()) || md(item.find('.hgKElc')[0]),
+      description: md(item.find('.aCOpRe span').pop()),
       extra: {
         footer: item.find('.aCOpRe span.f').text().slice(0, -3) || item.find('.fG8Fp.uo4vr').text() || item.find('.Od5Jsd').text() || null,
         links: md(item.find('.HiHjCd')[0]) || md(item.find('.P1usbc')[0], (x, i, a) => {
@@ -149,8 +150,6 @@ async function google (search, markdown) {
         }) || md(item.find('.ZGh7Vc')[0]) || null
       }
     }
-    let thumb = item.find('.GNxIwf img')[0]
-    if (thumb) res.extra.thumbnail = dimg[thumb.attribs.id] || null
     if (i === 0 && mod.length) {
       if (!res.description) res.description = md(mod.find('.hgKElc')[0])
       if (!res.extra.footer) res.extra.footer = mod.find('.kX21rb').text() || null

@@ -1,11 +1,7 @@
 module.exports = {
   name: 'rate',
-  aliases: [],
-  description: 'Rates something.',
-  permissions: [],
-  args: 0,
-  usage: '',
-  exec: async (msg, cmd) => {
+  description: 'Rate something from 0 to 10',
+  async exec  (msg, cmd) {
     let query = cmd.content.toLowerCase()
     if (['jibril', 'azriel'].includes(query)) return msg.channel.send('Top tier.')
     let rnd = Math.floor(random(query) * 11)

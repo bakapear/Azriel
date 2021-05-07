@@ -1,33 +1,23 @@
-let util = require('../util')
+let { util } = require('../mod')
 let dp = require('despair')
 
 module.exports = {
   name: 'image',
   aliases: ['i', 'img'],
-  description: 'Gets an image on Google.',
-  permissions: [],
+  description: 'Get a Google image result',
   args: 1,
-  usage: '<query> (poker)',
-  exec: async (msg, cmd) => {
-    let res = await util.poker(getImages, cmd)
-    if (!res.items.length) return msg.channel.send('Nothing found!')
-    if (res.isList) {
-      return util.showEmbedList(msg.channel, res.items, res.offset, items => {
-        return {
-          title: `Listing images including '${res.search}'`,
-          description: items.map(x => `${x.o.u}`).join('\n')
-        }
-      })
-    }
-    let item = res.item
-    let url = await util.checkImage(item.o.u) ? item.o.u : item.t.u
-    let img = await util.attachImages([url])
-    return msg.channel.send({ files: img })
+  usage: '<query>',
+  async exec (msg, cmd) {
+    let res = await searchGoogleImages(cmd.content)
+    if (!res.length) return msg.channel.send('Nothing found!')
+
+    let item = cmd.random ? util.randomItem(res) : res[0]
+    return util.sendImage(msg, item.o.u, item.t.u)
   }
 }
 
-async function getImages (query) {
-  let { body } = await dp('https://www.google.com/search', {
+async function searchGoogleImages (query) {
+  let body = await dp('https://www.google.com/search', {
     headers: { 'User-Agent': 'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0' },
     query: {
       source: 'lnms',
@@ -37,7 +27,7 @@ async function getImages (query) {
       safe: 'off',
       q: query
     }
-  })
+  }).text()
   let result = []
   let start = body.indexOf('data:', body.indexOf("ds:1',")) + 5
   let end = body.indexOf(', sideChannel: {', start)

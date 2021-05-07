@@ -1,20 +1,18 @@
-let util = require('../util')
-
 module.exports = {
   name: 'color',
-  aliases: [],
-  description: 'Gets information about a color.',
-  permissions: [],
+  description: 'Get information about a color',
   args: 1,
   usage: '#<hex> | <r>,<g>,<b> | <int>',
-  exec: async (msg, cmd) => {
+  async exec (msg, cmd) {
     let color = format(cmd.content)
     if (!color) return msg.channel.send('Invalid input!')
-    return util.showEmbed(msg.channel, {
-      title: color.name,
-      color: color.int,
-      thumbnail: { url: `https://plchldr.co/i/200x200?&bg=${color.hex}&text=` },
-      description: `**HEX** #${color.hex.toUpperCase()}\n**RGB** ${color.r},${color.g},${color.b}\n**INT** ${color.int}`
+    return msg.channel.send({
+      embed: {
+        title: color.name,
+        color: color.int,
+        thumbnail: { url: `https://plchldr.co/i/200x200?&bg=${color.hex}&text=` },
+        description: `**HEX** #${color.hex.toUpperCase()}\n**RGB** ${color.r},${color.g},${color.b}\n**INT** ${color.int}`
+      }
     })
   }
 }
