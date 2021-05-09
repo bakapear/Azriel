@@ -8,7 +8,8 @@ module.exports = {
   aliases: ['redvelvet', 'rv', 'irene', 'seulgi', 'wendy', 'joy', 'yeri'],
   description: 'Get an exclusive super cute Red Velvet picture',
   async exec (msg, cmd) {
-    let member = (cmd.name === this.name || this.aliases.slice(0, 2).includes(cmd.name)) ? util.randomItem(this.aliases.slice(2)) : cmd.name
+    let list = this.aliases.slice(2)
+    let member = list.includes(cmd.name) ? cmd.name : util.randomItem(list)
 
     let data = util.readRandomLine(ph.join(path, member + '.dat')).split('|')
 
