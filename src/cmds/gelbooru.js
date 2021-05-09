@@ -35,7 +35,7 @@ module.exports = [
     aliases: ['kirisame'],
     description: 'Display marisa kirisame',
     async exec (msg, cmd) {
-      let item = await getGelbooruImage('kirisame_marisa 1girl rating:safe sort:random')
+      let item = await getGelbooruImage(['kirisame_marisa', '1girl', 'rating:safe', 'sort:random'])
       if (!item) return msg.channel.send('Nothing found!')
 
       if (item.file_url.match(/\.(gif|webm|mp4)$/)) {
