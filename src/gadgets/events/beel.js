@@ -3,16 +3,16 @@ let dp = require('despair')
 let { util } = require('../../mod')
 
 let channel = bot.channels.cache.get('402461425743822879')
-if (channel) setTimer(util.getToTime(13))
+if (channel) setTimer(() => util.getToTime(13))
 
-function setTimer (ms) {
+function setTimer (fn) {
   setTimeout(async () => {
     try {
       let urls = await getKPOP()
       channel.send({ content: '<@284425943034888204>, ' + (urls[0] || 'woof') })
-      setTimer(ms)
+      setTimer(fn())
     } catch (e) { console.error(e) }
-  }, ms)
+  }, fn())
 }
 
 async function getKPOP (limit = 25) {
