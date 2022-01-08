@@ -10,7 +10,7 @@ function setTimer (fn) {
     try {
       let urls = await getKPOP()
       channel.send({ content: '<@284425943034888204>, ' + (urls[0] || 'woof') })
-      setTimer(fn())
+      setTimer(fn)
     } catch (e) { console.error(e) }
   }, fn())
 }

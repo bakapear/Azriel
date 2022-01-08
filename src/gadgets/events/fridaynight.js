@@ -8,7 +8,7 @@ function setTimer (fn) {
   setTimeout(async () => {
     try {
       channel.send({ files: [{ attachment: 'https://uh.s-ul.eu/ACudWOPh.mp4', name: 'friday-night.mp4' }] })
-      setTimer(fn())
+      setTimer(fn)
     } catch (e) { console.error(e) }
   }, fn())
 }
