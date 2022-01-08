@@ -87,6 +87,7 @@ async function getGelbooruImage (args) {
         json: 1
       }
     }).json()
+    res = res.post
     return res[0]
   } catch (e) { return null }
 }
