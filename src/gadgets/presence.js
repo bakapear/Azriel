@@ -4,7 +4,7 @@ let { util } = require('../mod')
 
 let words = []
 let types = ['PLAYING', 'STREAMING', 'LISTENING', 'WATCHING']
-let BLACKLIST = ['nigga']
+let BLACKLIST_REGEX = /nigg?[aeoi]s?/i
 
 module.exports = {
   randomPresence () {
@@ -17,5 +17,5 @@ module.exports = {
 
 async function fetchWords () {
   let body = await dp('https://api.urbandictionary.com/v0/random').json()
-  return body.list.map(x => x.word).filter(x => !BLACKLIST.some(y => y.toLowerCase().indexOf(x.toLowerCase()) >= 0))
+  return body.list.map(x => x.word).filter(x => !BLACKLIST_REGEX.test(x))
 }
