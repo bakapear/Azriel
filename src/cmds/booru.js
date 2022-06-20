@@ -9,9 +9,8 @@ module.exports = [
     usage: '(query)',
     async exec (msg, cmd) {
       let args = cmd.args.map(x => {
-        if (x === 's' || x === 'safe') x = 'rating:safe'
-        if (x === 'q' || x === 'questionable') x = 'rating:questionable'
-        if (x === 'e' || x === 'explicit') x = 'rating:explicit'
+        if (x === 's' || x === 'sensitive') x = 'rating:sensitive'
+        if (x === 'g' || x === 'general') x = 'rating:general'
         if (x === 'r' || x === 'random') x = 'sort:random'
         return x
       })
@@ -73,7 +72,7 @@ module.exports = [
   }
 ]
 
-let BLACKLIST = ['scat', 'guro', 'furry', 'diaper', 'twerking']
+let BLACKLIST = ['scat', 'guro', 'furry', 'diaper', 'twerking', 'rating:explicit']
 
 async function getGelbooruImage (args) {
   try {
