@@ -5,7 +5,7 @@ module.exports = [
   {
     name: 'gelbooru',
     aliases: ['gel'],
-    description: 'Get a naughty image from Gelbooru',
+    description: 'Get a naughty image from Gelbooru!',
     usage: '(query)',
     async exec (msg, cmd) {
       let args = cmd.args.map(x => {
