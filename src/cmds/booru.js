@@ -72,7 +72,7 @@ module.exports = [
   }
 ]
 
-let BLACKLIST = ['scat', 'guro', 'furry', 'diaper', 'twerking', 'rating:explicit']
+let BLACKLIST = ['loli', 'scat', 'guro', 'furry', 'diaper', 'twerking', 'rating:explicit']
 
 async function getGelbooruImage (args) {
   try {
