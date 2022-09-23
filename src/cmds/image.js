@@ -33,11 +33,11 @@ async function searchGoogleImages (query) {
   let end = body.indexOf(', sideChannel: {', start)
   let json = null
   try {
-    json = JSON.parse(body.substring(start, end))[31]
-    json = json[json.length - 1][12][2]
+    json = JSON.parse(body.substring(start, end))[56][1][0]
+    json = json[json.length - 1][1][0]
   } catch (e) { return [] }
   for (let i = 0; i < json.length; i++) {
-    let data = json[i][1]
+    let data = json[i][0][0]['444383007'][1]
     if (!data) continue
     let item = {
       o: {
