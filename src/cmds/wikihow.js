@@ -67,7 +67,7 @@ async function randomWHImage () {
   let step = title.lastIndexOf('Step')
   if (step >= 0) title = title.substr(0, step)
   return {
-    title: title,
+    title,
     url: body.imageinfo[0].url
   }
 }

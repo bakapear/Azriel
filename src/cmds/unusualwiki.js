@@ -33,7 +33,7 @@ async function getArticles () {
     res.push({
       name: head.attribs.title,
       url: head.attribs.href,
-      desc: desc
+      desc
     })
   }
   return res

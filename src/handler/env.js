@@ -1,4 +1,3 @@
-let ph = require('path')
 let fs = require('fs')
 
 module.exports = {

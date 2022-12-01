@@ -39,7 +39,7 @@ async function getAnime (search) {
   let body = await dp.post('https://graphql.anilist.co', {
     data: {
       query: 'query ($id: Int, $page: Int, $perPage: Int, $search: String) { Page(page: $page, perPage: $perPage) { media(id: $id, search: $search) { id title { romaji } description startDate { year month day } type episodes chapters volumes meanScore siteUrl } } }',
-      variables: { search: search, perPage: 10 }
+      variables: { search, perPage: 10 }
     },
     type: 'json'
   }).json()

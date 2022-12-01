@@ -81,7 +81,7 @@ module.exports = {
   usage: 'voices | <voice> <message>',
   args: 2,
   async exec (msg, cmd) {
-    if(cmd.args[0] === 'voices') return msg.channel.send(VOICES.map(x => `\`${x}\``).join(" "))
+    if (cmd.args[0] === 'voices') return msg.channel.send(VOICES.map(x => `\`${x}\``).join(' '))
     let m = await msg.channel.send('Generating voice...')
     let data = await speak(cmd.args[0].replace(/_/g, ' '), cmd.args.slice(1).join(' '))
     await m.delete()
@@ -93,7 +93,7 @@ module.exports = {
 async function speak (voice, text) {
   let body = await dp.post('https://api.15.ai/app/getAudioFile5', {
     data: {
-      text: text,
+      text,
       character: voice,
       emotion: 'Contextual'
     },
@@ -102,7 +102,7 @@ async function speak (voice, text) {
   if (body.message) return { error: body.message }
   else {
     let wav = await dp.get('https://cdn.15.ai/audio/' + body.wavNames[0], {
-      encoding: "binary"
+      encoding: 'binary'
     })
     return { file: wav.body }
   }
