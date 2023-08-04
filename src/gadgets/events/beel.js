@@ -15,8 +15,12 @@ function setTimer (fn) {
   }, fn())
 }
 
+
+getKPOP()
+
+
 async function getKPOP (limit = 25) {
-  let body = await dp('https://www.reddit.com/r/kpopfap/new.json', { query: { limit } }).json()
+  let body = await dp('https://www.reddit.com/r/kpopfap/new.json', { headers: { 'user-agent': 'discord bot azriel' }, query: { limit } }).json()
   body = body.data.children
   let res = []
   for (let i = 0; i < body.length; i++) {
