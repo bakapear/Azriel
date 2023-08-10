@@ -18,7 +18,7 @@ module.exports = {
 
 async function searchGoogleImages (query) {
   let body = await dp('https://www.google.com/search', {
-    headers: { 'User-Agent': 'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0' },
+    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36' },
     query: {
       source: 'lnms',
       tbm: 'isch',
