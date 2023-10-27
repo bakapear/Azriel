@@ -39,6 +39,9 @@ module.exports = {
         msg.channel.send(command.usage
           ? `Usage: \`${cmd.prefix}${command.name} ${command.usage}\``
           : 'Invalid arguments!')
+      } else if ((global.TIMEOUTS[msg.member.user.id] || 0) > Date.now()) {
+        let t = global.TIMEOUTS[msg.member.user.id]
+        msg.channel.send(`You are timed out and cannot use commands until \`${(new Date(t)).toLocaleString('uk').replace(', ', ' - ')}\`.`)
       } else {
         command.exec(msg, cmd).catch(e => {
           this.error(command.path, e.stack)
