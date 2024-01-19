@@ -7,7 +7,7 @@ if (channel) setTimer(() => util.getToTime(20))
 function setTimer (fn) {
   setTimeout(async () => {
     try {
-      channel.send({ content: '<@359305054853005314>, https://i.wuu.sh/_wrmQmxdqVCC.mp4' })
+      channel.send({ content: '<@359305054853005314>, https://uh.s-ul.eu/0JkvUEQM.mp4' })
       setTimer(fn)
     } catch (e) { console.error(e) }
   }, fn())
