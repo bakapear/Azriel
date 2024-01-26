@@ -9,12 +9,12 @@ let MIME = {
 }
 
 module.exports = {
-  async attachImages (arr) {
+  async attachImages (arr, spoiler) {
     for (let i = 0; i < arr.length; i++) {
       try {
         let res = await dp.head(arr[i])
         let ext = MIME[res.headers['content-type']]
-        if (ext) arr[i] = { attachment: arr[i], name: `unknown.${ext}` }
+        if (ext) arr[i] = { attachment: arr[i], name: (spoiler ? 'SPOILER_' : '') + `unknown.${ext}` }
       } catch (e) {}
     }
     return arr
@@ -27,9 +27,9 @@ module.exports = {
       return size <= 8000000 && size > 0 && type.indexOf('image') >= 0 && type.indexOf('svg') < 0
     }
   },
-  async sendImage (msg, url, alt) {
+  async sendImage (msg, url, alt, spoiler) {
     if (alt && !await this.checkImage(url)) url = alt
-    let img = await this.attachImages([url])
+    let img = await this.attachImages([url], spoiler)
     return msg.channel.send({ files: img })
   }
 }
