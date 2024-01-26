@@ -19,13 +19,36 @@ module.exports = [
       let item = await getGelbooruImage(args)
       if (!item) return msg.channel.send('Nothing found!')
 
-      if (item.file_url.match(/\.(gif|webm|mp4)$/)) return msg.channel.send(item.file_url)
+      if (item.file_url.match(/\.(gif|webm|mp4)$/)) return msg.channel.send(`${item.file_url}`)
 
       let sample = item.file_url.replace('images', 'samples').replace('.png', '.jpg')
       let index = sample.lastIndexOf('/')
       sample = sample.substr(0, index + 1) + 'sample_' + sample.substr(index + 1)
 
       return util.sendImage(msg, item.file_url, sample)
+    }
+  },
+  {
+    name: 'e621',
+    aliases: ['qwe'],
+    description: 'Get a naughty image from e621!',
+    usage: '(query)',
+    async exec (msg, cmd) {
+      let args = cmd.args.map(x => {
+        if (x === 's' || x === 'safe') x = 'rating:safe'
+        if (x === 'q' || x === 'questionable') x = 'rating:questionable'
+        if (x === 'e' || x === 'explicit') x = 'rating:explicit'
+        if (x === 'r' || x === 'random') x = 'order:random'
+        return x
+      })
+      if (!args.length || cmd.random) args.push('order:random')
+
+      let item = await getE621Image(args)
+      if (!item) return msg.channel.send('Nothing found!')
+
+      if (item.file.url.match(/\.(gif|webm|mp4)$/)) return msg.channel.send(`${item.file.url}`)
+
+      return util.sendImage(msg, item.file.url, item.sample.url)
     }
   },
   {
@@ -56,7 +79,7 @@ module.exports = [
     aliases: ['kirisame'],
     description: 'Display marisa kirisame',
     async exec (msg, cmd) {
-      let item = await getGelbooruImage(['kirisame_marisa', '1girl', 'rating:safe', 'sort:random'])
+      let item = await getGelbooruImage(['kirisame_marisa', '1girl', 'rating:general', 'sort:random'])
       if (!item) return msg.channel.send('Nothing found!')
 
       if (item.file_url.match(/\.(gif|webm|mp4)$/)) {
@@ -101,5 +124,18 @@ async function getKonachanImage (args) {
     }).json()
     // only up to 6 tags so we have to filter blacklist
     return res.filter(x => BLACKLIST.every(y => x.tags.indexOf(y) < 0) && x.rating === 's')[0]
+  } catch (e) { return null }
+}
+
+async function getE621Image (args) {
+  try {
+    let res = await dp('https://e621.net/posts.json?limit=10', {
+      headers: { 'User-Agent': 'doggo' },
+      query: {
+        tags: [...BLACKLIST.map(x => `-${x}`), ...args].join(' '),
+        limit: 50
+      }
+    }).json()
+    return res.posts[0]
   } catch (e) { return null }
 }
