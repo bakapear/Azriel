@@ -30,7 +30,7 @@ module.exports = [
   },
   {
     name: 'e621',
-    aliases: ['qwe'],
+    aliases: ['e'],
     description: 'Get a naughty image from e621!',
     usage: '(query)',
     async exec (msg, cmd) {
