@@ -17,9 +17,10 @@ module.exports = {
 }
 
 async function searchGoogleImages (query) {
-  let body = await dp('https://www.google.com/search?asearch=arc&hl=en&safe=strict&async=_fmt%3Apc&q=' + query, {
+  let body = await dp('https://www.google.com/search', {
     headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36' },
     query: {
+      udm: 2,
       asearch: 'arc',
       hl: 'en',
       safe: 'off',
