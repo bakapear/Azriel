@@ -136,6 +136,7 @@ async function getE621Image (args) {
         limit: 50
       }
     }).json()
+    res.posts = res.posts.filter(x => x.file.url)
     return res.posts[0]
   } catch (e) { return null }
 }
