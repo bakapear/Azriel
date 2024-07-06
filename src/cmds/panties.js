@@ -21,7 +21,7 @@ module.exports = {
 }
 
 async function getComments () {
-  let body = await dp('https://gelbooru.com/index.php', {
+  let body = await dp('https://api.rule34.xxx', {
     query: {
       page: 'dapi',
       s: 'comment',
