@@ -6,8 +6,9 @@ module.exports = {
   aliases: ['pr0'],
   description: 'Get a random pr0gramm post',
   async exec (msg, cmd) {
-    let body = await dp('http://pr0gramm.com/api/items/get').json()
-
+    let body = await dp('http://pr0gramm.com/api/items/get',
+      { headers: { 'user-agent': 'joker' } }
+    ).json()
     let item = util.randomItem(body.items)
 
     let url = 'https://img.pr0gramm.com/' + item.image
