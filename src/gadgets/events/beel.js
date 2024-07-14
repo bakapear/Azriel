@@ -18,7 +18,7 @@ function setTimer (fn) {
 getKPOP()
 
 async function getKPOP (limit = 25) {
-  let body = await dp('https://www.reddit.com/r/kpopfap/new.json', { headers: { 'user-agent': 'discord bot azriel v2' }, query: { limit } }).json().catch(e => null)
+  let body = await fetch('https://corsproxy.io/?https://www.reddit.com/r/kpopfap/new.json?limit=' + limit, { headers: { 'user-agent': 'discord bot azriel v2' } }).then(j => j.json()).catch(e => null)
   if (!body) return []
 
   body = body.data.children
