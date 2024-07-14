@@ -17,7 +17,7 @@
     "url": "git+https://github.com/bakapear/Azriel.git"
   },
   "engines": {
-    "node": ">=18.*"
+    "node": ">=20.*"
   },
   "author": "bakapear",
   "license": "MIT",
