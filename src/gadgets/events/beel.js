@@ -17,28 +17,18 @@ function setTimer (fn) {
 
 getKPOP()
 
-async function getKPOP (limit = 25) {
-  let body = await dp('https://corsproxy.io/?https://www.reddit.com/r/kpopfap/new.json?limit=' + limit, {
+async function getKPOP () {
+  let body = await dp('https://kpfarchive.com/api/posts', {
     headers: { 'user-agent': 'discord bot azriel v2', accept: '*' }
   }).json().catch(e => null)
 
   if (!body) return []
 
-  body = body.data.children
   let res = []
   for (let i = 0; i < body.length; i++) {
-    let item = body[i].data
-    if (['reddit.com', 'i.redd.it', 'gfycat.com', 'i.imgur.com'].includes(item.domain)) {
-      if (item.secure_media) {
-        if (item.domain === 'gfycat.com') item = item.url + '.gif'
-        else item = item.secure_media.oembed.thumbnail_url
-      } else if (item.media_metadata) {
-        let data = Object.values(item.media_metadata).find(x => x.status === 'valid')
-        item = 'https://i.redd.it/' + data.id + '.' + data.m.split('/').pop()
-      } else {
-        item = item.url
-      }
-      res.push(item)
+    let item = body[i]
+    if (!item.url.includes('/gallery/')) {
+      res.push(item.url)
     }
   }
   return res
