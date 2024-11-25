@@ -8,10 +8,13 @@ module.exports = {
   usage: '<query>',
   async exec (msg, cmd) {
     let res = await dp('https://coub.com/api/v2/smart_search/general_search?per_page=50&search_query=' + encodeURIComponent(cmd.content)).json().catch(() => null)
-    if (!res || !res.coubs.length) return msg.channel.send('Nothing found!')
 
-    let i = cmd.random ? Math.floor(Math.random() * res.coubs.length) : 0
-    // return msg.channel.send(res.coubs[i].file_versions.share.default)
-    return util.sendImage(msg, res.coubs[i].file_versions.share.default)
+    let coubs = res?.coubs.filter(x => x?.file_versions?.share?.default)
+
+    if (!res || !coubs.length) return msg.channel.send('Nothing found!')
+
+    let i = cmd.random ? Math.floor(Math.random() * coubs.length) : 0
+
+    return util.sendImage(msg, coubs[i].file_versions.share.default)
   }
 }
