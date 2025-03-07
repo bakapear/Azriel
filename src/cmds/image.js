@@ -24,7 +24,7 @@ async function searchGoogleImages (query) {
       asearch: 'arc',
       hl: 'en',
       safe: 'off',
-      async: '_fmt:pc',
+      async: 'arc_id:srp_zF_JZ_ehGr-L7M8Po-jhgQE_100,use_ac:true,_fmt:pc',
       q: query
     }
   }).text()
