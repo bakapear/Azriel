@@ -1,3 +1,5 @@
+/* global env */
+
 let dp = require('despair')
 let { util } = require('../mod')
 
@@ -105,6 +107,8 @@ async function getGelbooruImage (args) {
         page: 'dapi',
         s: 'post',
         q: 'index',
+        api_key: env.GEL_KEY,
+        user_id: env.GEL_USER,
         limit: 1,
         json: 1
       }
