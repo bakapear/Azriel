@@ -3,7 +3,7 @@ let { util } = require('../mod')
 module.exports = {
   name: '8ball',
   description: 'Shake the Magic 8 Ball to hear about your fortune',
-  async exec (msg, cmd) {
+  async exec (msg) {
     return msg.channel.send(`:8ball: ${util.randomItem(ANSWERS)}`)
   }
 }
