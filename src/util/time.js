@@ -16,7 +16,7 @@ module.exports = {
     later.setSeconds(s)
     later.setMilliseconds(ms)
     let time = later - now
-    if (time <= 0) time += 86400000
+    if (time <= 1000) time += 86400000
     return time
   },
   getTimeToDay (day, h = 0, m = 0, s = 0, ms = 0) {
@@ -30,7 +30,7 @@ module.exports = {
     later.setSeconds(s)
     later.setMilliseconds(ms)
     let time = later - now
-    if (time <= 0) time += 604800000
+    if (time <= 1000) time += 604800000
     return time
   }
 }
