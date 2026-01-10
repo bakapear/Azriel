@@ -18,7 +18,7 @@ module.exports = {
 
 async function searchGoogleImages (query) {
   let body = await dp('https://www.google.com/search', {
-    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36' },
+    headers: { 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/399.2.845414227 Mobile/15E148 Safari/604.1' },
     query: {
       udm: 2,
       asearch: 'arc',
@@ -29,7 +29,9 @@ async function searchGoogleImages (query) {
     }
   }).text()
 
-  body = JSON.parse(body.slice(body.indexOf(';[[[') + 1))[0]
+  let start = body.indexOf(';[[[') + 1
+  let end = body.indexOf("c;", start)
+  body = JSON.parse(body.substr(start, end - start))[0]
 
   let items = []
 
