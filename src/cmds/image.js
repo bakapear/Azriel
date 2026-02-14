@@ -27,11 +27,11 @@ async function searchGoogleImages (query) {
       async: 'arc_id:srp_zF_JZ_ehGr-L7M8Po-jhgQE_100,use_ac:true,_fmt:pc',
       q: query
     }
-  }).text()
+  }).text() 
 
   let start = body.indexOf(';[[[') + 1
   let end = body.indexOf("c;", start)
-  body = JSON.parse(body.substr(start, end - start))[0]
+  body = JSON.parse(body.substr(start, end !== -1 ? end - start : undefined))[0]
 
   let items = []
 
