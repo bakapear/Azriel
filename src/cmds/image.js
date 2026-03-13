@@ -18,39 +18,34 @@ module.exports = {
 
 async function searchGoogleImages (query) {
   let body = await dp('https://www.google.com/search', {
-    headers: { 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/399.2.845414227 Mobile/15E148 Safari/604.1' },
+    headers: { 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_0_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/406.0.862495628 Mobile/15E148 Safari/604.1' },
     query: {
-      udm: 2,
-      asearch: 'arc',
+      q: query,
+      tbm: 'isch',
       hl: 'en',
       safe: 'off',
-      async: 'arc_id:srp_zF_JZ_ehGr-L7M8Po-jhgQE_100,use_ac:true,_fmt:pc',
-      q: query
+      asearch: 'isch',
+      async: '_fmt:json,p:1,ijn:0'
     }
   }).text() 
 
-  let start = body.indexOf(';[[[') + 1
-  let end = body.indexOf("c;", start)
-  body = JSON.parse(body.substr(start, end !== -1 ? end - start : undefined))[0]
+  body = JSON.parse(body.slice(4)).ischj.metadata
 
   let items = []
 
   for (let item of body) {
-    item = JSON.parse(item[1])
-    if (item[0] === 1 && Array.isArray(item[1])) {
-      items.push({
+    items.push({
         o: {
-          u: item[1][3][0],
-          w: item[1][3][1],
-          h: item[1][3][2]
+          u: item.original_image.url,
+          w: item.original_image.width,
+          h: item.original_image.height
         },
         t: {
-          u: item[1][2][0],
-          w: item[1][2][1],
-          h: item[1][2][2]
+          u: item.thumbnail.url,
+          w: item.thumbnail.width,
+          h: item.thumbnail.height
         }
       })
-    }
   }
 
   return items
