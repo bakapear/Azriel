@@ -1,4 +1,7 @@
 let { util } = require('../mod')
+let ph = require('path')
+
+let path = ph.join(__dirname, '..', 'data', 'timer')
 
 module.exports = {
   name: 'timer',
@@ -6,7 +9,7 @@ module.exports = {
   description: 'Set off a timer',
   permissions: [],
   args: 0,
-  usage: '<time> / clear',
+  usage: '<time> (message) / clear',
   async exec (msg, cmd) {
     let timer = timers[msg.author.id]
     if (!cmd.args.length) {
@@ -23,13 +26,13 @@ module.exports = {
     }
     if (timer) return msg.channel.send('Timer already set.')
     let ms = textToMs(cmd.content)
-    if (ms <= 0) return msg.channel.send('Invalid time given!')
-    let date = new Date(Date.now() + ms)
+    if (ms.time <= 0) return msg.channel.send('Invalid time given!')
+    let date = new Date(Date.now() + ms.time)
     timers[msg.author.id] = {
       timeout: setTimeout(() => {
-        msg.reply(util.randomItem(REPLIES))
+        msg.reply(ms.str || util.readRandomLine(ph.join(path, 'replies.txt')))
         delete timers[msg.author.id]
-      }, ms),
+      }, ms.time),
       text: date.toLocaleString('uk').replace(', ', ' - ')
     }
     return msg.channel.send(`Timer set for \`${timers[msg.author.id].text}\``)
@@ -45,19 +48,16 @@ function textToMs (str) {
   let parts = { h: 0, m: 0, s: 0 }
   let match = null
   let regex = /(\d+) ?(h|m|s)/g
+  let res = str
+  let offs = 0
   do {
     match = regex.exec(str)
-    if (match) parts[match[2]] = Number(match[1])
+    if (match) {
+      parts[match[2]] = Number(match[1])
+      res = res.substr(0, match.index - offs) + res.substr(match.index - offs + match[0].length)
+      offs += match[0].length
+    }
   } while (match)
-  return (parts.h * 3600000) + (parts.m * 60000) + (parts.s * 1000)
+    
+  return { time: (parts.h * 3600000) + (parts.m * 60000) + (parts.s * 1000), str: res.trim() }
 }
-
-let REPLIES = [
-  'RRRRRRRRRRRRRR',
-  'DING DING DING',
-  'Woof woof',
-  'HEY!',
-  'Hey! Listen!',
-  'Your timer is going all like IAJEFUIAJIOFUeaHJUIOF',
-  'LOLI ALERT'
-]
