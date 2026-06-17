@@ -21,13 +21,13 @@ module.exports = [
       let item = await getGelbooruImage(args)
       if (!item) return msg.channel.send('Nothing found!')
 
-      if (item.file_url.match(/\.(gif|webm|mp4)$/)) return msg.channel.send(`${item.file_url}`)
+      let url = "https://img4.gelbooru.com/images/" + item.directory + "/" + item.image
+      let size = (await dp.head(url, { headers: { referer: "https://gelbooru.com/" } })).headers['content-length']
+      if (size > 9000000) return msg.channel.send("File too big!")
 
-      let sample = item.file_url.replace('images', 'samples').replace('.png', '.jpg')
-      let index = sample.lastIndexOf('/')
-      sample = sample.substr(0, index + 1) + 'sample_' + sample.substr(index + 1)
+      let file = await fetch(url, { headers: { referer: "https://gelbooru.com/" } }).then(a => a.arrayBuffer())
 
-      return util.sendImage(msg, item.file_url, sample)
+      return msg.channel.send({ files: [{ attachment: Buffer.from(file), name: item.image }] })
     }
   },
   {
