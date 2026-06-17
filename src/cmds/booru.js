@@ -22,8 +22,14 @@ module.exports = [
       if (!item) return msg.channel.send('Nothing found!')
 
       let url = "https://img4.gelbooru.com/images/" + item.directory + "/" + item.image
-      let size = (await dp.head(url, { headers: { referer: "https://gelbooru.com/" } })).headers['content-length']
-      if (size > 9000000) return msg.channel.send("File too big!")
+
+      let headers = (await dp.head(url, { headers: { referer: "https://gelbooru.com/" } })).headers
+      if (headers['content-length'] > 9000000) {
+        if (headers['content-type'].indexOf("video") !== -1) return msg.channel.send("Video too big!")
+          url = url.replace("/images/", "/samples/")
+          let p = url.lastIndexOf("/")
+          url = url.slice(0, p + 1) + "sample_" + url.slice(p + 1)
+      }
 
       let file = await fetch(url, { headers: { referer: "https://gelbooru.com/" } }).then(a => a.arrayBuffer())
 
