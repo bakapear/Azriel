@@ -12,41 +12,27 @@ module.exports = {
     if (!res.length) return msg.channel.send('Nothing found!')
 
     let item = cmd.random ? util.randomItem(res) : res[0]
-    return util.sendImage(msg, item.o.u, item.t.u)
+    return util.sendImage(msg, item, item)
   }
 }
 
 async function searchGoogleImages (query) {
-  let body = await dp('https://www.google.com/search', {
-    headers: { 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_0_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/406.0.862495628 Mobile/15E148 Safari/604.1' },
-    query: {
-      q: query,
-      tbm: 'isch',
-      hl: 'en',
-      safe: 'off',
-      asearch: 'isch',
-      async: '_fmt:json,p:1,ijn:0'
+  let q = new URLSearchParams({
+    q: query,
+    tbm: 'isch',
+    hl: 'en',
+    safe: 'off'
+  })
+
+  let body = await fetch('https://www.google.com/wml/search?' + q.toString(), {
+    headers: {
+      'User-Agent': 'Nokia7610/2.0 (5.0509.0) SymbianOS/7.0s Series60/2.1 Profile/MIDP-2.0 Configuration/CLDC-1.0'
     }
-  }).text() 
+  }).then(t => t.text())
 
-  body = JSON.parse(body.slice(4)).ischj.metadata
+  let matches = body.matchAll(/imgres\?imgurl=(.*?)&amp;imgrefurl/g)
 
-  let items = []
-
-  for (let item of body) {
-    items.push({
-        o: {
-          u: item.original_image.url,
-          w: item.original_image.width,
-          h: item.original_image.height
-        },
-        t: {
-          u: item.thumbnail.url,
-          w: item.thumbnail.width,
-          h: item.thumbnail.height
-        }
-      })
-  }
-
-  return items
+  let images = []
+  for (let match of matches) images.push(match[1])
+  return images
 }
