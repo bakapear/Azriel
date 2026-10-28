@@ -1,8 +1,8 @@
-FROM debian:bullseye as builder
+FROM debian:trixie as builder
 
 ARG NODE_VERSION=24.16.0
 
-RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update; apt install -y curl
 RUN curl https://get.volta.sh | bash
 ENV VOLTA_HOME /root/.volta
 ENV PATH /root/.volta/bin:$PATH
