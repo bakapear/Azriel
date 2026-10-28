@@ -24,15 +24,17 @@ async function searchGoogleImages (query) {
     safe: 'off'
   })
 
-  let body = await fetch('https://www.google.com/wml/search?' + q.toString(), {
+  let body = await fetch('https://www.google.com/search?' + q.toString(), {
     headers: {
-      'User-Agent': 'Nokia7610/2.0 (5.0509.0) SymbianOS/7.0s Series60/2.1 Profile/MIDP-2.0 Configuration/CLDC-1.0'
+      'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Symbian OS; SAMSUNG-GT-S5230) Opera 8.65'
     }
   }).then(t => t.text())
 
-  let matches = body.matchAll(/imgres\?imgurl=(.*?)&amp;imgrefurl/g)
+  let matches = body.matchAll(/data-oh="(.*?)" data-ou="(.*?)" data-ow="(.*?)"/g)
 
   let images = []
-  for (let match of matches) images.push(match[1])
+  for (let match of matches) {
+    if (match[2]) images.push(match[2])
+  }
   return images
 }
